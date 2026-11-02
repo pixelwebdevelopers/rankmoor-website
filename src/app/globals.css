@@ -83,6 +83,14 @@ body {
   animation-play-state: paused;
 }
 
+/* Hide WhatsApp widget when mobile drawer menu is open */
+body.mobile-menu-active .whatsapp-widget-container {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
 /* Typography Gradient Utilities */
 .text-gradient-heading {
   background: linear-gradient(135deg, #0F172A 0%, #1E293B 70%, #334155 100%);

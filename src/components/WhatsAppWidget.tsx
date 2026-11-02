@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { X, ArrowRight, ShieldCheck } from "lucide-react";
 import { WhatsAppIcon } from "./WhatsAppIcon";
@@ -8,9 +8,24 @@ import { COMPANY_INFO, FOUNDER_INFO } from "@/data/content";
 
 export function WhatsAppWidget() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleMenuEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<{ open?: boolean }>;
+      setIsMobileMenuOpen(Boolean(customEvent.detail?.open));
+    };
+    window.addEventListener("rankmoor:mobile-menu", handleMenuEvent);
+    return () => window.removeEventListener("rankmoor:mobile-menu", handleMenuEvent);
+  }, []);
+
+  // When mobile drawer menu is active, ensure floating icon is completely hidden
+  if (isMobileMenuOpen) {
+    return null;
+  }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div className="whatsapp-widget-container fixed bottom-6 right-6 z-40 flex flex-col items-end">
       {/* Pop-up Card */}
       {isOpen && (
         <div className="mb-3 w-80 sm:w-88 rounded-2xl bg-white border border-[#25D366]/40 p-5 shadow-2xl shadow-slate-900/15 backdrop-blur-xl animate-in fade-in slide-in-from-bottom-4 duration-200">
@@ -37,7 +52,7 @@ export function WhatsAppWidget() {
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100"
+              className="text-slate-400 hover:text-slate-700 p-1 rounded-lg hover:bg-slate-100 cursor-pointer"
               aria-label="Close message preview"
             >
               <X className="w-4 h-4" />
@@ -46,7 +61,7 @@ export function WhatsAppWidget() {
 
           <div className="py-3 text-xs text-slate-700 leading-relaxed">
             <p className="bg-slate-50 p-3 rounded-xl border border-slate-200/80 mb-2">
-              👋 Hey there! Looking to scale your Amazon store or launch on TikTok Shop? Send us your store link or ASIN — I personally review every catalog.
+              Hey there! Looking to scale your Amazon store or launch on TikTok Shop? Send us your store link or ASIN — I personally review every catalog.
             </p>
             <div className="text-[10px] text-slate-500 flex items-center justify-between">
               <span>Avg response time: &lt;15 mins</span>
@@ -60,7 +75,7 @@ export function WhatsAppWidget() {
             rel="noopener noreferrer"
             className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-white bg-[#25D366] hover:bg-[#20BA5A] transition-colors shadow-md shadow-[#25D366]/25 flex items-center justify-center gap-2"
           >
-            <WhatsAppIcon className="w-4 h-4" />
+            <WhatsAppIcon className="w-4 h-4 text-white" />
             <span>Open WhatsApp Conversation</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
@@ -70,7 +85,7 @@ export function WhatsAppWidget() {
       {/* Trigger Button with Real WhatsApp Color & Official Icon */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex items-center gap-2.5 bg-[#25D366] hover:bg-[#20BA5A] text-white px-4 py-3 rounded-full shadow-lg shadow-[#25D366]/30 hover:shadow-xl hover:shadow-[#25D366]/40 hover:scale-105 active:scale-95 transition-all duration-200 border border-white"
+        className="group relative flex items-center gap-2.5 bg-[#25D366] hover:bg-[#20BA5A] text-white px-4 py-3 rounded-full shadow-lg shadow-[#25D366]/30 hover:shadow-xl hover:shadow-[#25D366]/40 hover:scale-105 active:scale-95 transition-all duration-200 border border-white cursor-pointer"
         aria-label="WhatsApp Rankmoor"
       >
         <span className="relative flex h-3 w-3">

@@ -37,6 +37,20 @@ export function Navbar() {
     setServicesDropdown(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.classList.add("mobile-menu-active");
+      window.dispatchEvent(new CustomEvent("rankmoor:mobile-menu", { detail: { open: true } }));
+    } else {
+      document.body.classList.remove("mobile-menu-active");
+      window.dispatchEvent(new CustomEvent("rankmoor:mobile-menu", { detail: { open: false } }));
+    }
+    return () => {
+      document.body.classList.remove("mobile-menu-active");
+      window.dispatchEvent(new CustomEvent("rankmoor:mobile-menu", { detail: { open: false } }));
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <>
       <header
@@ -211,7 +225,7 @@ export function Navbar() {
       {/* Professional Slide-over Mobile Sidebar Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="fixed inset-0 z-[9998] lg:hidden">
             {/* Backdrop Blur */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -219,7 +233,7 @@ export function Navbar() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="absolute inset-0 bg-slate-900/50 backdrop-blur-xs"
+              className="absolute inset-0 bg-slate-900/60 backdrop-blur-xs z-[9998]"
             />
 
             {/* Sidebar Drawer */}
@@ -228,7 +242,7 @@ export function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 250 }}
-              className="absolute right-0 top-0 bottom-0 w-[320px] max-w-[85vw] bg-white h-full shadow-2xl p-6 flex flex-col justify-between overflow-y-auto z-50"
+              className="absolute right-0 top-0 bottom-0 w-[320px] max-w-[85vw] bg-white h-full shadow-2xl p-6 flex flex-col justify-between overflow-y-auto z-[9999]"
             >
               <div>
                 {/* Header inside drawer */}

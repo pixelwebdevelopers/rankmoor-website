@@ -134,24 +134,24 @@ export default function HomePage() {
       />
 
       {/* ============================================================ */}
-      {/* 1. HERO SECTION (NO TOP CUTOFF, FLUSH RIGHT, SMOOTH LEFT BLEND) */}
+      {/* 1. HERO SECTION (RESPONSIVE MOBILE & DESKTOP ARCHITECTURE)   */}
       {/* ============================================================ */}
-      <section className="relative w-full overflow-hidden bg-[#FCF5EB] border-b border-slate-200/90 pt-32 sm:pt-36 lg:pt-36 pb-8 lg:pb-12 min-h-[660px] lg:min-h-[720px] flex items-center">
+      <section className="relative w-full overflow-hidden bg-[#FCF5EB] border-b border-slate-200/90 pt-24 sm:pt-28 lg:pt-36 pb-12 lg:pb-12 min-h-0 lg:min-h-[720px] flex flex-col lg:flex-row items-center">
         
-        {/* Left Side: Copy Container aligned with standard 7xl layout */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-4 lg:py-8 z-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
+        {/* Main Content Area */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-2 sm:py-4 lg:py-8 z-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-0">
             
-            {/* Restricted to col-span-5 so text never crowds 4.9 stars or coffee mug */}
+            {/* Left Column: Copy, Switcher, Badges & CTAs */}
             <motion.div 
-              initial={{ opacity: 0, x: -70 }}
+              initial={{ opacity: 0, x: -60 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
               className="lg:col-span-5 xl:col-span-5 space-y-4 text-center lg:text-left max-w-lg mx-auto lg:mx-0"
             >
               {/* Announcement Pill */}
               <motion.div 
-                initial={{ opacity: 0, y: -15 }}
+                initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200/90 shadow-2xs text-[11px] font-semibold text-slate-800"
@@ -162,8 +162,8 @@ export default function HomePage() {
                 <span className="text-[#E05300] font-bold">$20M+ Verified Data</span>
               </motion.div>
 
-              {/* Main Headline (Refined sizing per feedback) */}
-              <h1 className="text-2xl sm:text-3xl lg:text-[34px] xl:text-[38px] font-display font-extrabold tracking-tight text-slate-950 leading-[1.16]">
+              {/* Main Headline */}
+              <h1 className="text-2xl sm:text-3xl lg:text-[34px] xl:text-[38px] font-display font-extrabold tracking-tight text-slate-950 leading-[1.18]">
                 We Don&apos;t Just Rank Products.{" "}
                 <span className="text-[#FF6B00] block mt-1">
                   Makes You The Brand.
@@ -171,7 +171,7 @@ export default function HomePage() {
               </h1>
 
               {/* Subheadline */}
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal max-w-md mx-auto lg:mx-0">
                 Engineering category dominance for high-growth Amazon sellers and TikTok Shop pioneers through precision search architecture, conversion-led creatives, PPC science, and turnkey operational custodianship.
               </p>
 
@@ -181,49 +181,49 @@ export default function HomePage() {
                 <div className="inline-flex items-center p-0.5 rounded-lg bg-white/80 border border-slate-200/80 shadow-2xs text-[10px] font-bold text-slate-600">
                   <button
                     onClick={() => setHeroMetricMode("amazon")}
-                    className={`px-2 py-1 rounded-md transition-all ${
+                    className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
                       heroMetricMode === "amazon"
                         ? "bg-[#FF6B00] text-white shadow-2xs"
                         : "hover:text-slate-900"
                     }`}
                   >
-                    🏆 Amazon FBA
+                    Amazon FBA
                   </button>
                   <button
                     onClick={() => setHeroMetricMode("ppc")}
-                    className={`px-2 py-1 rounded-md transition-all ${
+                    className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
                       heroMetricMode === "ppc"
                         ? "bg-slate-900 text-white shadow-2xs"
                         : "hover:text-slate-900"
                     }`}
                   >
-                    ⚡ PPC Efficiency
+                    PPC Science
                   </button>
                   <button
                     onClick={() => setHeroMetricMode("tiktok")}
-                    className={`px-2 py-1 rounded-md transition-all ${
+                    className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
                       heroMetricMode === "tiktok"
                         ? "bg-teal-600 text-white shadow-2xs"
                         : "hover:text-slate-900"
                     }`}
                   >
-                    🚀 TikTok Shop
+                    TikTok Shop
                   </button>
                 </div>
 
                 {/* 3 Metric Badges */}
-                <div className="grid grid-cols-3 gap-2.5">
+                <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
                   <motion.div 
                     key={`b1-${heroMetricMode}`}
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.2 }}
-                    className="p-2.5 sm:p-3 rounded-2xl bg-white border border-slate-200/80 shadow-2xs text-center lg:text-left"
+                    className="p-2 sm:p-2.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs text-center lg:text-left"
                   >
-                    <div className={`text-base sm:text-lg font-bold font-display ${heroStats[heroMetricMode].col1}`}>
+                    <div className={`text-sm sm:text-base lg:text-lg font-bold font-display ${heroStats[heroMetricMode].col1}`}>
                       {heroStats[heroMetricMode].val1}
                     </div>
-                    <div className="text-[10px] text-slate-500 font-medium">
+                    <div className="text-[9px] sm:text-[10px] text-slate-500 font-medium truncate sm:whitespace-normal">
                       {heroStats[heroMetricMode].lbl1}
                     </div>
                   </motion.div>
@@ -233,12 +233,12 @@ export default function HomePage() {
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.2 }}
-                    className="p-2.5 sm:p-3 rounded-2xl bg-white border border-slate-200/80 shadow-2xs text-center lg:text-left"
+                    className="p-2 sm:p-2.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs text-center lg:text-left"
                   >
-                    <div className={`text-base sm:text-lg font-bold font-display ${heroStats[heroMetricMode].col2}`}>
+                    <div className={`text-sm sm:text-base lg:text-lg font-bold font-display ${heroStats[heroMetricMode].col2}`}>
                       {heroStats[heroMetricMode].val2}
                     </div>
-                    <div className="text-[10px] text-slate-500 font-medium">
+                    <div className="text-[9px] sm:text-[10px] text-slate-500 font-medium truncate sm:whitespace-normal">
                       {heroStats[heroMetricMode].lbl2}
                     </div>
                   </motion.div>
@@ -248,12 +248,12 @@ export default function HomePage() {
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.2 }}
-                    className="p-2.5 sm:p-3 rounded-2xl bg-white border border-slate-200/80 shadow-2xs text-center lg:text-left"
+                    className="p-2 sm:p-2.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs text-center lg:text-left"
                   >
-                    <div className={`text-base sm:text-lg font-bold font-display ${heroStats[heroMetricMode].col3}`}>
+                    <div className={`text-sm sm:text-base lg:text-lg font-bold font-display ${heroStats[heroMetricMode].col3}`}>
                       {heroStats[heroMetricMode].val3}
                     </div>
-                    <div className="text-[10px] text-slate-500 font-medium">
+                    <div className="text-[9px] sm:text-[10px] text-slate-500 font-medium truncate sm:whitespace-normal">
                       {heroStats[heroMetricMode].lbl3}
                     </div>
                   </motion.div>
@@ -261,7 +261,7 @@ export default function HomePage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
                 <Link
                   href="/contact"
                   className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-[#FF6B00] to-[#FF8533] hover:from-[#FF7A1A] hover:to-[#FFA048] shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 transition-all duration-200 flex items-center justify-center gap-2 group active:scale-98"
@@ -284,7 +284,7 @@ export default function HomePage() {
               </div>
 
               {/* Trust Indicators */}
-              <div className="pt-1 flex flex-wrap items-center justify-center lg:justify-start gap-3 text-[11px] text-slate-500">
+              <div className="pt-1 flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3 text-[10px] sm:text-[11px] text-slate-500">
                 <span className="flex items-center gap-1 font-medium">
                   <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                   <span>100% Real Seller Central</span>
@@ -300,20 +300,48 @@ export default function HomePage() {
                   <span>TikTok Partner</span>
                 </span>
               </div>
+
+              {/* MOBILE ONLY: High-Impact Visual Showcase Card */}
+              <motion.div 
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="block lg:hidden w-full max-w-md mx-auto pt-4"
+              >
+                <div className="relative aspect-[16/11] w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl shadow-orange-950/10 border-2 border-white bg-[#FAF7F2]">
+                  <Image
+                    src="/assets/hero/hero-client-graphic-mobile.webp"
+                    alt="Rankmoor Founder Mian Hassan - Verified Amazon & TikTok Growth"
+                    fill
+                    priority
+                    className="object-cover object-center"
+                  />
+                  {/* Floating Frosted Glass Overlay Badge on Mobile */}
+                  <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-white/95 backdrop-blur-md px-3 py-2 rounded-xl border border-slate-200/90 shadow-md flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-[11px] sm:text-xs font-bold text-slate-900 font-display">Mian Hassan • CEO</span>
+                    </div>
+                    <div className="text-[10px] sm:text-[11px] font-extrabold text-[#E05300] bg-orange-50 px-2 py-0.5 rounded-md border border-orange-200">
+                      $20.23M+ 12M Sales
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
 
           </div>
         </div>
 
-        {/* Right Side Image: Flush to RIGHT edge (NO right padding), Seamless Left Blend */}
+        {/* DESKTOP ONLY: Flush-Right Absolute Image (NO right padding, smooth left blend) */}
         <motion.div 
           initial={{ opacity: 0, x: 70 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative lg:absolute lg:right-0 lg:top-24 lg:bottom-0 w-full lg:w-[60%] xl:w-[64%] h-[440px] sm:h-[520px] lg:h-[calc(100%-96px)] z-10 flex items-end justify-end pointer-events-none"
+          className="hidden lg:flex lg:absolute lg:right-0 lg:top-24 lg:bottom-0 w-[60%] xl:w-[64%] h-[calc(100%-96px)] z-10 items-end justify-end pointer-events-none"
         >
           {/* Continuous Left-Side Blend Overlay matching #FCF5EB */}
-          <div className="hidden lg:block absolute inset-y-0 left-0 w-48 xl:w-72 bg-gradient-to-r from-[#FCF5EB] via-[#FCF5EB]/70 to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-48 xl:w-72 bg-gradient-to-r from-[#FCF5EB] via-[#FCF5EB]/70 to-transparent z-10 pointer-events-none" />
 
           {/* Graphic Container with Alpha-blended Graphic */}
           <div className="relative w-full h-full">
@@ -373,7 +401,6 @@ export default function HomePage() {
           </motion.div>
 
         </motion.div>
-
       </section>
 
       {/* ============================================================ */}
