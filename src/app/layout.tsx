@@ -52,8 +52,14 @@ export const metadata: Metadata = {
     description: "Scale your Amazon & TikTok Shop brand with elite SEO, A+ Creatives, and PPC science.",
   },
   icons: {
-    icon: "/assets/logo/rankmoor-symbol.png",
-    apple: "/assets/logo/rankmoor-symbol.png",
+    icon: [
+      { url: "/assets/logo/rankmoor-symbol.png" },
+      { url: "/favicon.ico" },
+    ],
+    apple: [
+      { url: "/assets/logo/rankmoor-symbol.png" },
+    ],
+    shortcut: "/favicon.ico",
   },
 };
 

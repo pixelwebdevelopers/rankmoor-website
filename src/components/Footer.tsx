@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { COMPANY_INFO } from "@/data/content";
 import { 
   Mail, 
@@ -62,16 +63,13 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-3 mb-4 group">
               <div className="w-11 h-11 rounded-xl bg-white p-2 shadow-sm flex items-center justify-center">
-                <svg viewBox="0 0 100 100" className="w-full h-full" fill="none">
-                  <path
-                    d="M 18 16 L 56 16 C 76 16, 88 28, 88 45 C 88 58, 78 68, 65 71 C 71 76, 78 84, 90 90 L 72 90 C 61 84, 54 75, 49 68 L 44 68 L 44 54 C 55 54, 67 52, 67 43 C 67 33, 58 31, 48 31 L 34 31 L 18 16 Z"
-                    fill="#0F172A"
-                  />
-                  <path
-                    d="M 20 62 L 46 45 L 40 40 L 68 35 L 63 63 L 56 57 L 30 73 Z"
-                    fill="#FF6B00"
-                  />
-                </svg>
+                <Image
+                  src="/assets/logo/rankmoor-symbol.png"
+                  alt="Rankmoor Logo"
+                  width={36}
+                  height={36}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                />
               </div>
               <div className="flex flex-col text-left">
                 <div className="font-display font-extrabold text-2xl tracking-tight text-white leading-none">
