@@ -921,7 +921,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* 4 Modular Pillars with High-Resolution Embedded Graphic Architecture */}
+        {/* 4 Modular Pillars with Clean Engineered Architecture Specs */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
           {/* Pillar 1: Amazon PPC & DSP Advertising */}
@@ -929,47 +929,42 @@ export default function HomePage() {
             <div className="rounded-3xl p-6 sm:p-8 bg-white border border-slate-200/90 hover:border-orange-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#FF6B00] flex items-center justify-center group-hover:scale-105 transition-transform">
-                    <BarChart3 className="w-5 h-5" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#FF6B00] flex items-center justify-center group-hover:scale-105 transition-transform">
+                      <BarChart3 className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Pillar 01 // Acquisition</span>
+                      <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
+                        Amazon PPC & DSP Science
+                      </h3>
+                    </div>
                   </div>
                   <span className="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
                     Target: 16.00% ACOS
                   </span>
                 </div>
 
-                <h3 className="text-xl font-display font-bold text-slate-900 mb-2 group-hover:text-[#FF6B00] transition-colors">
-                  Amazon PPC & Programmatic DSP Science
-                </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
                   Algorithmic bid management, hourly day-parting, and Single-Keyword Ad Groups (SKAG) designed to cut wasted broad spend while securing Top-of-Search positions.
                 </p>
 
-                {/* Embedded Graphic Blueprint Preview (Click to Zoom Lightbox) */}
-                <div 
-                  onClick={() => setLightboxState({
-                    isOpen: true,
-                    imageSrc: "/assets/services/amazon/amazon-ppc-dsp.webp",
-                    title: "Amazon PPC & Programmatic DSP Architecture",
-                    subtitle: "Single-Keyword Ad Groups (SKAG) with 16.0% ACOS Day-Parting",
-                    metrics: [
-                      { label: "Target ACOS", value: "16.00%" },
-                      { label: "Verified Sales", value: "$7.37M" },
-                      { label: "Waste Cut", value: "-58%" },
-                    ]
-                  })}
-                  className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 mb-5 cursor-zoom-in group/img aspect-[16/10] shadow-2xs hover:shadow-md transition-shadow"
-                >
-                  <Image
-                    src="/assets/services/amazon/amazon-ppc-dsp.webp"
-                    alt="Amazon PPC Architecture Blueprint"
-                    fill
-                    className="object-cover group-hover/img:scale-102 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-slate-900/0 group-hover/img:bg-slate-900/20 transition-colors flex items-center justify-center">
-                    <span className="opacity-0 group-hover/img:opacity-100 transition-opacity px-3.5 py-1.5 rounded-full bg-white/95 text-slate-900 text-xs font-bold shadow-md flex items-center gap-1.5">
-                      <Maximize2 className="w-3.5 h-3.5 text-[#FF6B00]" />
-                      <span>Expand Architecture Blueprint</span>
-                    </span>
+                {/* Structured Architectural Spec Box (Clean Non-Image Engineering) */}
+                <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/80 mb-5 text-left">
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Ad Protocol</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">SKAG Silos</div>
+                    <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">Zero Broad Waste</div>
+                  </div>
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Pacing Engine</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">Day-Parting</div>
+                    <div className="text-[10px] text-blue-600 font-semibold mt-0.5">Hourly Adjust</div>
+                  </div>
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">DSP Retarget</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">Off-Amazon</div>
+                    <div className="text-[10px] text-[#E05300] font-semibold mt-0.5">5.4x ROAS</div>
                   </div>
                 </div>
 
@@ -1007,46 +1002,42 @@ export default function HomePage() {
             <div className="rounded-3xl p-6 sm:p-8 bg-white border border-slate-200/90 hover:border-orange-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#FF6B00] flex items-center justify-center group-hover:scale-105 transition-transform">
-                    <Search className="w-5 h-5" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#FF6B00] flex items-center justify-center group-hover:scale-105 transition-transform">
+                      <Search className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Pillar 02 // Relevance</span>
+                      <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
+                        Cosmo & A9 SEO Architecture
+                      </h3>
+                    </div>
                   </div>
                   <span className="px-2.5 py-1 rounded-md bg-orange-50 text-[#E05300] text-xs font-bold border border-orange-200">
                     +140% Keyword Velocity
                   </span>
                 </div>
 
-                <h3 className="text-xl font-display font-bold text-slate-900 mb-2 group-hover:text-[#FF6B00] transition-colors">
-                  Cosmo & A9 Algorithmic Listing Architecture
-                </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
                   Reverse-ASIN competitor scraping coupled with semantic intent mapping for Amazon&apos;s latest Cosmo algorithm, turning listings into organic category anchors.
                 </p>
 
-                {/* Embedded Graphic Blueprint Preview (Click to Zoom Lightbox) */}
-                <div 
-                  onClick={() => setLightboxState({
-                    isOpen: true,
-                    imageSrc: "/assets/services/amazon/amazon-cosmo-seo.webp",
-                    title: "Cosmo & A9 Algorithmic Keyword Architecture",
-                    subtitle: "Reverse-ASIN Semantic Root Mapping for Page 1 Best Sellers",
-                    metrics: [
-                      { label: "Organic Top-10", value: "1,420+ Keywords" },
-                      { label: "Page 1 Share", value: "84.2%" },
-                    ]
-                  })}
-                  className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 mb-5 cursor-zoom-in group/img aspect-[16/10] shadow-2xs hover:shadow-md transition-shadow"
-                >
-                  <Image
-                    src="/assets/services/amazon/amazon-cosmo-seo.webp"
-                    alt="Cosmo & A9 SEO Blueprint"
-                    fill
-                    className="object-cover group-hover/img:scale-102 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-slate-900/0 group-hover/img:bg-slate-900/20 transition-colors flex items-center justify-center">
-                    <span className="opacity-0 group-hover/img:opacity-100 transition-opacity px-3.5 py-1.5 rounded-full bg-white/95 text-slate-900 text-xs font-bold shadow-md flex items-center gap-1.5">
-                      <Maximize2 className="w-3.5 h-3.5 text-[#FF6B00]" />
-                      <span>Expand Architecture Blueprint</span>
-                    </span>
+                {/* Structured Architectural Spec Box (Clean Non-Image Engineering) */}
+                <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/80 mb-5 text-left">
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Search Model</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">Cosmo 2.0</div>
+                    <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">Intent Vectors</div>
+                  </div>
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Catalog Defense</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">Reverse-ASIN</div>
+                    <div className="text-[10px] text-blue-600 font-semibold mt-0.5">Top-3 Dominance</div>
+                  </div>
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Backend Index</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">Zero Cannibal</div>
+                    <div className="text-[10px] text-[#E05300] font-semibold mt-0.5">100% Retained</div>
                   </div>
                 </div>
 
@@ -1084,46 +1075,42 @@ export default function HomePage() {
             <div className="rounded-3xl p-6 sm:p-8 bg-white border border-slate-200/90 hover:border-orange-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#FF6B00] flex items-center justify-center group-hover:scale-105 transition-transform">
-                    <Layers className="w-5 h-5" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#FF6B00] flex items-center justify-center group-hover:scale-105 transition-transform">
+                      <Layers className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Pillar 03 // Conversion</span>
+                      <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
+                        3D Creatives & Premium A+
+                      </h3>
+                    </div>
                   </div>
                   <span className="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
                     +28% to +65% CVR Lift
                   </span>
                 </div>
 
-                <h3 className="text-xl font-display font-bold text-slate-900 mb-2 group-hover:text-[#FF6B00] transition-colors">
-                  Studio 3D Creatives & Premium A+ Storefronts
-                </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
                   Photorealistic 3D product renders, microscopic exploded views, cross-selling comparison modules, and full-bleed brand stores that command high pricing.
                 </p>
 
-                {/* Embedded Graphic Blueprint Preview (Click to Zoom Lightbox) */}
-                <div 
-                  onClick={() => setLightboxState({
-                    isOpen: true,
-                    imageSrc: "/assets/services/amazon/amazon-3d-aplus.webp",
-                    title: "Studio 3D Creatives & Premium A+ Storefronts",
-                    subtitle: "Photorealistic CAD Exploded Renders & Luxury Comparison Modules",
-                    metrics: [
-                      { label: "Conversion Lift", value: "+42.5%" },
-                      { label: "Main Image CTR", value: "3.8% (Top 1%)" },
-                    ]
-                  })}
-                  className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 mb-5 cursor-zoom-in group/img aspect-[16/10] shadow-2xs hover:shadow-md transition-shadow"
-                >
-                  <Image
-                    src="/assets/services/amazon/amazon-3d-aplus.webp"
-                    alt="3D A+ Creative Studio Blueprint"
-                    fill
-                    className="object-cover group-hover/img:scale-102 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-slate-900/0 group-hover/img:bg-slate-900/20 transition-colors flex items-center justify-center">
-                    <span className="opacity-0 group-hover/img:opacity-100 transition-opacity px-3.5 py-1.5 rounded-full bg-white/95 text-slate-900 text-xs font-bold shadow-md flex items-center gap-1.5">
-                      <Maximize2 className="w-3.5 h-3.5 text-[#FF6B00]" />
-                      <span>Expand Architecture Blueprint</span>
-                    </span>
+                {/* Structured Architectural Spec Box (Clean Non-Image Engineering) */}
+                <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/80 mb-5 text-left">
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Asset Quality</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">4K 3D CAD</div>
+                    <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">Sensory Texture</div>
+                  </div>
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Storefront Design</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">Mobile-First</div>
+                    <div className="text-[10px] text-blue-600 font-semibold mt-0.5">1-Thumb Buy</div>
+                  </div>
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Testing Engine</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">MYE Testing</div>
+                    <div className="text-[10px] text-[#E05300] font-semibold mt-0.5">99% Confidence</div>
                   </div>
                 </div>
 
@@ -1149,7 +1136,7 @@ export default function HomePage() {
                   href="/amazon"
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#E05300]"
                 >
-                  <span>View Creative Gallery</span>
+                  <span>View Creative Specs</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
@@ -1161,47 +1148,42 @@ export default function HomePage() {
             <div className="rounded-3xl p-6 sm:p-8 bg-white border border-slate-200/90 hover:border-teal-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center group-hover:scale-105 transition-transform">
-                    <Video className="w-5 h-5" />
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center group-hover:scale-105 transition-transform">
+                      <Video className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Pillar 04 // Viral Commerce</span>
+                      <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 group-hover:text-teal-600 transition-colors leading-tight">
+                        TikTok Shop & Live GMV Engine
+                      </h3>
+                    </div>
                   </div>
                   <span className="px-2.5 py-1 rounded-md bg-teal-50 text-teal-700 text-xs font-bold border border-teal-200">
                     4,200+ Active Creators
                   </span>
                 </div>
 
-                <h3 className="text-xl font-display font-bold text-slate-900 mb-2 group-hover:text-teal-600 transition-colors">
-                  TikTok Shop Creator Seeding & Live GMV Engine
-                </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
                   Monthly seeding to 500+ vetted UGC creators, dedicated TikTok Live shopping hosts, Spark Ads scaling, and automated Amazon MCF inventory synchronization.
                 </p>
 
-                {/* Embedded Graphic Blueprint Preview (Click to Zoom Lightbox) */}
-                <div 
-                  onClick={() => setLightboxState({
-                    isOpen: true,
-                    imageSrc: "/assets/services/tiktok/tiktok-creator-machine.webp",
-                    title: "TikTok Shop Creator Seeding & Live GMV Engine",
-                    subtitle: "500+ Monthly Creator Outreach Machine with Amazon MCF FBA Bridge",
-                    metrics: [
-                      { label: "Active Creators", value: "4,200+" },
-                      { label: "Monthly Tagged Videos", value: "120-300+" },
-                      { label: "Live GMV", value: "$480K / Mo" },
-                    ]
-                  })}
-                  className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-50 mb-5 cursor-zoom-in group/img aspect-[16/10] shadow-2xs hover:shadow-md transition-shadow"
-                >
-                  <Image
-                    src="/assets/services/tiktok/tiktok-creator-machine.webp"
-                    alt="TikTok Shop Flywheel Blueprint"
-                    fill
-                    className="object-cover group-hover/img:scale-102 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-slate-900/0 group-hover/img:bg-slate-900/20 transition-colors flex items-center justify-center">
-                    <span className="opacity-0 group-hover/img:opacity-100 transition-opacity px-3.5 py-1.5 rounded-full bg-white/95 text-slate-900 text-xs font-bold shadow-md flex items-center gap-1.5">
-                      <Maximize2 className="w-3.5 h-3.5 text-teal-600" />
-                      <span>Expand Architecture Blueprint</span>
-                    </span>
+                {/* Structured Architectural Spec Box (Clean Non-Image Engineering) */}
+                <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/80 mb-5 text-left">
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Creator Engine</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">500+ / Mo</div>
+                    <div className="text-[10px] text-teal-600 font-semibold mt-0.5">Sample Seeding</div>
+                  </div>
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Post Compliance</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">&gt;82% Ratio</div>
+                    <div className="text-[10px] text-blue-600 font-semibold mt-0.5">Verified Shoppable</div>
+                  </div>
+                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
+                    <div className="text-[10px] font-mono uppercase text-slate-500">Fulfillment</div>
+                    <div className="text-xs font-bold text-slate-900 mt-0.5">Amazon MCF</div>
+                    <div className="text-[10px] text-purple-600 font-semibold mt-0.5">Unified Inventory</div>
                   </div>
                 </div>
 
@@ -1634,130 +1616,162 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
             {/* Stage 1 */}
-            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-slate-600 transition-all group">
+            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-orange-500/50 hover:bg-slate-800 transition-all group">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-2xl font-mono font-bold text-[#FF6B00]">01</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-700 text-slate-300">
+                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] flex items-center justify-center font-mono font-bold text-lg group-hover:scale-105 transition-transform">
+                    01
+                  </div>
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-slate-700/80 text-orange-300 border border-slate-600">
                     Days 1 - 7
                   </span>
                 </div>
 
-                {/* Stage 1 Image Preview */}
-                <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-4 border border-slate-700">
-                  <Image
-                    src="/assets/graphics/marketplace-audit-blueprint.webp"
-                    alt="Stage 1 Forensic Audit Blueprint"
-                    fill
-                    className="object-cover group-hover:scale-103 transition-transform duration-300"
-                  />
-                </div>
-
-                <h3 className="text-base font-display font-bold text-white mb-2">
+                <h3 className="text-lg font-display font-bold text-white mb-2 group-hover:text-orange-300 transition-colors">
                   Forensic 24-Point Audit
                 </h3>
                 <p className="text-slate-400 text-xs leading-relaxed mb-4">
                   Exhaustive reverse-ASIN competitor harvest, purging unproductive broad-match ad spend, and identifying hidden buy-box leaks.
                 </p>
+
+                <div className="space-y-2 mb-5 text-xs text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Reverse-ASIN competitor gap scan</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Ad spend bleed & waste triage</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Listing suppression & buy-box check</span>
+                  </div>
+                </div>
               </div>
-              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700">
-                Deliverable: 15-Page Action Roadmap
+              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700/80 flex items-center justify-between">
+                <span>Deliverable</span>
+                <span className="font-mono text-emerald-300">15-Page Action Roadmap</span>
               </div>
             </div>
 
             {/* Stage 2 */}
-            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-slate-600 transition-all group">
+            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-orange-500/50 hover:bg-slate-800 transition-all group">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-2xl font-mono font-bold text-[#FF6B00]">02</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-700 text-slate-300">
+                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] flex items-center justify-center font-mono font-bold text-lg group-hover:scale-105 transition-transform">
+                    02
+                  </div>
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-slate-700/80 text-orange-300 border border-slate-600">
                     Days 8 - 25
                   </span>
                 </div>
 
-                {/* Stage 2 Image Preview */}
-                <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-4 border border-slate-700">
-                  <Image
-                    src="/assets/services/ebc_creative_showcase_1790702284614-DM9GOURk.jpg"
-                    alt="Stage 2 3D Creatives & Storefronts"
-                    fill
-                    className="object-cover group-hover:scale-103 transition-transform duration-300"
-                  />
-                </div>
-
-                <h3 className="text-base font-display font-bold text-white mb-2">
+                <h3 className="text-lg font-display font-bold text-white mb-2 group-hover:text-orange-300 transition-colors">
                   Cosmo SEO & 3D Creatives
                 </h3>
                 <p className="text-slate-400 text-xs leading-relaxed mb-4">
                   Deploying Cosmo semantic backend search terms and studio-grade 3D renders with comparison modules to immediately lift CVR.
                 </p>
+
+                <div className="space-y-2 mb-5 text-xs text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Cosmo 2.0 semantic keyword injection</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Photorealistic 3D exploded A+ renders</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Mobile one-thumb conversion design</span>
+                  </div>
+                </div>
               </div>
-              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700">
-                Deliverable: +35% Expected Conversion Lift
+              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700/80 flex items-center justify-between">
+                <span>Deliverable</span>
+                <span className="font-mono text-emerald-300">+35% Expected CVR Lift</span>
               </div>
             </div>
 
             {/* Stage 3 */}
-            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-slate-600 transition-all group">
+            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-orange-500/50 hover:bg-slate-800 transition-all group">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-2xl font-mono font-bold text-[#FF6B00]">03</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-700 text-slate-300">
+                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] flex items-center justify-center font-mono font-bold text-lg group-hover:scale-105 transition-transform">
+                    03
+                  </div>
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-slate-700/80 text-orange-300 border border-slate-600">
                     Days 26 - 60
                   </span>
                 </div>
 
-                {/* Stage 3 Image Preview */}
-                <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-4 border border-slate-700">
-                  <Image
-                    src="/assets/cases/amazon-ppc-7m-sales-16acos.webp"
-                    alt="Stage 3 PPC Scaling Console"
-                    fill
-                    className="object-cover group-hover:scale-103 transition-transform duration-300"
-                  />
-                </div>
-
-                <h3 className="text-base font-display font-bold text-white mb-2">
+                <h3 className="text-lg font-display font-bold text-white mb-2 group-hover:text-orange-300 transition-colors">
                   Algorithmic PPC Scaling
                 </h3>
                 <p className="text-slate-400 text-xs leading-relaxed mb-4">
                   Activating Single-Keyword Ad Groups (SKAG) with hourly day-parting to slash ACOS while scaling monthly revenue volume.
                 </p>
+
+                <div className="space-y-2 mb-5 text-xs text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Hourly day-parting peak-bid rules</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Single-Keyword Exact Ad Silos</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Amazon DSP retargeting activation</span>
+                  </div>
+                </div>
               </div>
-              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700">
-                Deliverable: Sub-18% Target ACOS
+              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700/80 flex items-center justify-between">
+                <span>Deliverable</span>
+                <span className="font-mono text-emerald-300">Sub-18% Target ACOS</span>
               </div>
             </div>
 
             {/* Stage 4 */}
-            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-slate-600 transition-all group">
+            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-orange-500/50 hover:bg-slate-800 transition-all group">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-2xl font-mono font-bold text-[#FF6B00]">04</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-700 text-slate-300">
+                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] flex items-center justify-center font-mono font-bold text-lg group-hover:scale-105 transition-transform">
+                    04
+                  </div>
+                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-slate-700/80 text-orange-300 border border-slate-600">
                     Days 60+
                   </span>
                 </div>
 
-                {/* Stage 4 Image Preview */}
-                <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-4 border border-slate-700">
-                  <Image
-                    src="/assets/graphics/tiktok-shop-flywheel-graphic.webp"
-                    alt="Stage 4 TikTok Shop Flywheel"
-                    fill
-                    className="object-cover group-hover:scale-103 transition-transform duration-300"
-                  />
-                </div>
-
-                <h3 className="text-base font-display font-bold text-white mb-2">
+                <h3 className="text-lg font-display font-bold text-white mb-2 group-hover:text-orange-300 transition-colors">
                   TikTok Shop Flywheel
                 </h3>
                 <p className="text-slate-400 text-xs leading-relaxed mb-4">
                   Seeding products to 500+ creators, running dedicated live streams, and syncing inventory straight from Amazon FBA via MCF.
                 </p>
+
+                <div className="space-y-2 mb-5 text-xs text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>500+ monthly creator sample seeding</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Turnkey live shopping studio streams</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
+                    <span>Amazon MCF unified inventory sync</span>
+                  </div>
+                </div>
               </div>
-              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700">
-                Deliverable: +340% Branded Search Surge
+              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700/80 flex items-center justify-between">
+                <span>Deliverable</span>
+                <span className="font-mono text-emerald-300">+340% Branded Search</span>
               </div>
             </div>
 
