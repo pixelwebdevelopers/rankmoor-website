@@ -12,8 +12,7 @@ import {
   Menu, 
   X, 
   Sparkles, 
-  ChevronDown,
-  ChevronRight
+  ChevronDown
 } from "lucide-react";
 import { COMPANY_INFO } from "@/data/content";
 
@@ -23,6 +22,12 @@ export function Navbar() {
   const [servicesDropdown, setServicesDropdown] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(true);
   const pathname = usePathname();
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setMobileMenuOpen(false);
+    setServicesDropdown(false);
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,11 +36,6 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    setMobileMenuOpen(false);
-    setServicesDropdown(false);
-  }, [pathname]);
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -154,16 +154,13 @@ export function Navbar() {
 
               <Link
                 href="/case-studies"
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-1.5 ${
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
                   pathname === "/case-studies"
                     ? "text-[#FF6B00] bg-orange-50/90"
                     : "text-slate-700 hover:text-slate-900 hover:bg-slate-100/70"
                 }`}
               >
-                <span>Case Studies</span>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                  $20M+
-                </span>
+                Case Studies
               </Link>
 
               <Link
@@ -319,14 +316,11 @@ export function Navbar() {
                   <Link
                     href="/case-studies"
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
+                    className={`block px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
                       pathname === "/case-studies" ? "bg-orange-50 text-[#FF6B00]" : "text-slate-800 hover:bg-slate-50"
                     }`}
                   >
-                    <span>Case Studies</span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                      $20M+
-                    </span>
+                    Case Studies
                   </Link>
 
                   <Link

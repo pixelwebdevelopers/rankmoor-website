@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { COMPANY_INFO } from "@/data/content";
 import { 
   Mail, 
@@ -15,47 +16,52 @@ import {
 import { WhatsAppIcon } from "./WhatsAppIcon";
 
 export function Footer() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
   return (
-    <footer className="relative bg-gradient-to-b from-[#FF6B00] via-[#FF5900] to-[#E04800] text-white pt-20 pb-12 overflow-hidden">
+    <footer className="relative bg-gradient-to-b from-[#FF6B00] via-[#FF5900] to-[#E04800] text-white pt-16 pb-12 overflow-hidden">
       {/* Background subtle texture overlay */}
       <div className="absolute inset-0 bg-texture opacity-15 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Top Callout Card in crisp white with orange accents */}
-        <div className="mb-16 p-8 sm:p-10 rounded-3xl bg-white text-slate-900 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="max-w-xl text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold uppercase tracking-wider mb-3">
-              <Sparkles className="w-3.5 h-3.5 text-[#FF6B00]" />
-              <span>Ready for Category Dominance?</span>
+        {/* Top Callout Card in crisp white with orange accents (shown on subpages where no custom closing CTA exists) */}
+        {!isHome && (
+          <div className="mb-16 p-8 sm:p-10 rounded-3xl bg-white text-slate-900 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="max-w-xl text-center md:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold uppercase tracking-wider mb-3">
+                <Sparkles className="w-3.5 h-3.5 text-[#FF6B00]" />
+                <span>Ready for Category Dominance?</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 mb-2">
+                Claim Your Free 24-Point Empirical Catalog Audit
+              </h3>
+              <p className="text-slate-600 text-sm">
+                We analyze your ASIN indexing, buy-box security, ad waste, and TikTok expansion readiness with zero obligation.
+              </p>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 mb-2">
-              Claim Your Free 24-Point Empirical Catalog Audit
-            </h3>
-            <p className="text-slate-600 text-sm">
-              We analyze your ASIN indexing, buy-box security, ad waste, and TikTok expansion readiness with zero obligation.
-            </p>
-          </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
-            <Link
-              href="/contact"
-              className="w-full sm:w-auto text-center px-8 py-4 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-[#FF6B00] to-[#FF8533] hover:from-[#FF7A1A] hover:to-[#FFA048] shadow-md shadow-orange-500/25 transition-all flex items-center justify-center gap-2"
-            >
-              <span>Schedule Free Audit</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
-            <a
-              href={COMPANY_INFO.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto text-center px-6 py-4 rounded-xl font-bold text-sm text-white bg-[#25D366] hover:bg-[#20BA5A] transition-colors shadow-md shadow-[#25D366]/20 flex items-center justify-center gap-2"
-            >
-              <WhatsAppIcon className="w-4 h-4" />
-              <span>WhatsApp</span>
-            </a>
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+              <Link
+                href="/contact"
+                className="w-full sm:w-auto text-center px-8 py-4 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-[#FF6B00] to-[#FF8533] hover:from-[#FF7A1A] hover:to-[#FFA048] shadow-md shadow-orange-500/25 transition-all flex items-center justify-center gap-2"
+              >
+                <span>Schedule Free Audit</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+              <a
+                href={COMPANY_INFO.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto text-center px-6 py-4 rounded-xl font-bold text-sm text-white bg-[#25D366] hover:bg-[#20BA5A] transition-colors shadow-md shadow-[#25D366]/20 flex items-center justify-center gap-2"
+              >
+                <WhatsAppIcon className="w-4 h-4" />
+                <span>WhatsApp</span>
+              </a>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Main Links Grid in White/Light Orange */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-16">
