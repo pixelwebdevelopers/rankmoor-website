@@ -50,11 +50,12 @@ body {
   background: #FF6B00;
 }
 
-/* Texture Pattern using user's bg.webp */
+/* Seamless Texture Pattern using user's bg.webp (Natural 1:1 repeat without stretching or pixelation) */
 .bg-texture {
   background-image: url('/assets/bg.webp');
-  background-size: contain !important;
+  background-size: auto !important;
   background-repeat: repeat !important;
+  background-position: top left !important;
 }
 
 /* Infinite Marquee Animation */
