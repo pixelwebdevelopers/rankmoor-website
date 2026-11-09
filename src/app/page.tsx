@@ -212,14 +212,14 @@ export default function HomePage() {
       {/* ============================================================ */}
       {/* 1. HERO SECTION (REFINED WITH CURVY PENCIL UNDERLINE)         */}
       {/* ============================================================ */}
-      <section className="relative w-full overflow-hidden bg-[#FCF5EB] border-b border-slate-200/90 pt-24 sm:pt-28 lg:pt-36 pb-14 lg:pb-16 min-h-0 lg:min-h-[720px] flex flex-col lg:flex-row items-center">
+      <section className="relative w-full overflow-hidden bg-[#FCF5EB] border-b border-slate-200/90 pt-28 sm:pt-28 lg:pt-36 pb-12 sm:pb-14 lg:pb-0 min-h-0 flex flex-col lg:flex-row items-center">
         
         {/* Subtle Ambient Radial Highlight */}
         <div className="absolute top-10 left-10 w-96 h-96 bg-orange-200/40 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-10 right-1/3 w-80 h-80 bg-amber-100/50 rounded-full blur-3xl pointer-events-none" />
 
         {/* Main Content Area */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-2 sm:py-4 lg:py-8 z-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-2 sm:py-4 lg:pt-4 lg:pb-0 z-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-0">
             
             {/* Left Column: Copy, Switcher, Badges & CTAs (WordPress-style slide in left) */}
