@@ -11,11 +11,9 @@ import {
   ShieldCheck, 
   BarChart3, 
   CheckCircle2, 
-  Video, 
   Award, 
   Layers, 
   Zap, 
-  ChevronRight,
   Star, 
   ChevronDown, 
   Maximize2, 
@@ -25,12 +23,16 @@ import {
   X, 
   Target, 
   Clock, 
-  ShieldAlert,
-  Activity,
   Filter,
-  Cpu
+  Cpu,
+  Percent,
+  Flame,
+  Globe,
+  DollarSign
 } from "lucide-react";
 import { FaAmazon, FaTiktok } from "react-icons/fa6";
+import confetti from "canvas-confetti";
+
 import { 
   COMPANY_INFO, 
   FOUNDER_INFO, 
@@ -40,19 +42,23 @@ import {
 } from "@/data/content";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { ImageLightbox } from "@/components/ImageLightbox";
+import { CurvyUnderline } from "@/components/CurvyUnderline";
+import { SpotlightCard } from "@/components/SpotlightCard";
+import { InteractiveGlobe } from "@/components/InteractiveGlobe";
+import { ResultsShowcase } from "@/components/ResultsShowcase";
+import { BentoServices } from "@/components/BentoServices";
 
 export default function HomePage() {
   const [activeCaseTab, setActiveCaseTab] = useState<number>(0);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [faqCategory, setFaqCategory] = useState<string>("all");
   const [heroMetricMode, setHeroMetricMode] = useState<"amazon" | "ppc" | "tiktok">("amazon");
-  const [serviceTab, setServiceTab] = useState<"all" | "amazon" | "tiktok">("all");
 
   // Interactive Simulator State
-  const [simRevenue, setSimRevenue] = useState<number>(75000);
+  const [simRevenue, setSimRevenue] = useState<number>(85000);
   const [simAcos, setSimAcos] = useState<number>(34);
 
-  // Keyword Laboratory State (Inspired by AdBox & AdsInitiatorz PPC Science)
+  // Keyword Laboratory State (Scientific PPC Query Analysis)
   const [selectedKeywordPreset, setSelectedKeywordPreset] = useState<number>(0);
   const keywordPresets = [
     {
@@ -107,22 +113,7 @@ export default function HomePage() {
   const checkedCount = scannerChecks.filter(Boolean).length;
   const storeHealthScore = Math.round((checkedCount / 5) * 100);
 
-  // Floating Live Activity Toast State
-  const [showActivityToast, setShowActivityToast] = useState<boolean>(true);
-  const [activityToastIndex, setActivityToastIndex] = useState<number>(0);
-  const liveActivities = [
-    { text: "Verified: $7.37M Amazon PPC portfolio running at 16.00% ACOS", tag: "PPC Science" },
-    { text: "Live: Amazon Cosmo 2.0 reverse-ASIN harvest deployed", tag: "SEO Engine" },
-    { text: "Delivered: 482,714 units fulfilled with zero stockouts", tag: "FBA Scale" },
-    { text: "TikTok Shop: 500+ Creator seeding machine active", tag: "Creator GMV" },
-  ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActivityToastIndex((prev) => (prev + 1) % liveActivities.length);
-    }, 7000);
-    return () => clearInterval(interval);
-  }, [liveActivities.length]);
 
   // Lightbox Modal State
   const [lightboxState, setLightboxState] = useState<{
@@ -148,6 +139,15 @@ export default function HomePage() {
   const targetAcos = 16.0;
   const adWasteEliminated = Math.round(currentAdSpend * Math.max(0, (simAcos - targetAcos) / simAcos) * 0.75);
   const annualEbitdaImpact = Math.round((projectedRevenueGain * 0.28 + adWasteEliminated) * 12);
+
+  const triggerConfetti = () => {
+    confetti({
+      particleCount: 80,
+      spread: 70,
+      origin: { y: 0.8 },
+      colors: ["#FF6B00", "#14B8A6", "#3B82F6", "#F59E0B"],
+    });
+  };
 
   // Dynamic hero stats depending on mode
   const heroStats = {
@@ -195,7 +195,7 @@ export default function HomePage() {
     : FAQS.slice(3, 6);
 
   return (
-    <div className="relative min-h-screen bg-[#FAFAFC] text-slate-900 overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#FAFAFC] text-slate-900 overflow-x-hidden selection:bg-[#FF6B00] selection:text-white">
       
       {/* Global Image Lightbox Modal */}
       <ImageLightbox
@@ -207,52 +207,26 @@ export default function HomePage() {
         metrics={lightboxState.metrics}
       />
 
-      {/* Floating Live Activity Toast (Bottom-Left) */}
-      <AnimatePresence>
-        {showActivityToast && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, x: -20 }}
-            animate={{ opacity: 1, y: 0, x: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-6 left-6 z-40 hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur-md border border-slate-200/90 py-2.5 px-4 rounded-2xl shadow-xl shadow-slate-900/10 max-w-sm"
-          >
-            <span className="relative flex h-2.5 w-2.5 flex-shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-            </span>
-            <div className="text-left">
-              <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                {liveActivities[activityToastIndex].tag}
-              </div>
-              <div className="text-xs font-semibold text-slate-800 line-clamp-1">
-                {liveActivities[activityToastIndex].text}
-              </div>
-            </div>
-            <button
-              onClick={() => setShowActivityToast(false)}
-              className="text-slate-400 hover:text-slate-600 p-1 rounded-md transition-colors"
-              aria-label="Dismiss notification"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
 
       {/* ============================================================ */}
-      {/* 1. HERO SECTION (PRESERVED AS CLIENT LIKED IT)               */}
+      {/* 1. HERO SECTION (REFINED WITH CURVY PENCIL UNDERLINE)         */}
       {/* ============================================================ */}
-      <section className="relative w-full overflow-hidden bg-[#FCF5EB] border-b border-slate-200/90 pt-24 sm:pt-28 lg:pt-36 pb-12 lg:pb-12 min-h-0 lg:min-h-[720px] flex flex-col lg:flex-row items-center">
+      <section className="relative w-full overflow-hidden bg-[#FCF5EB] border-b border-slate-200/90 pt-24 sm:pt-28 lg:pt-36 pb-14 lg:pb-16 min-h-0 lg:min-h-[720px] flex flex-col lg:flex-row items-center">
         
+        {/* Subtle Ambient Radial Highlight */}
+        <div className="absolute top-10 left-10 w-96 h-96 bg-orange-200/40 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-10 right-1/3 w-80 h-80 bg-amber-100/50 rounded-full blur-3xl pointer-events-none" />
+
         {/* Main Content Area */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-2 sm:py-4 lg:py-8 z-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-0">
             
-            {/* Left Column: Copy, Switcher, Badges & CTAs */}
+            {/* Left Column: Copy, Switcher, Badges & CTAs (WordPress-style slide in left) */}
             <motion.div 
-              initial={{ opacity: 0, x: -60 }}
+              initial={{ opacity: 0, x: -70 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="lg:col-span-5 xl:col-span-5 space-y-4 text-center lg:text-left max-w-lg mx-auto lg:mx-0"
             >
               {/* Announcement Pill with Continuous Radar Pulse */}
@@ -271,17 +245,19 @@ export default function HomePage() {
                 <span className="text-[#E05300] font-bold">$20M+ Verified Data</span>
               </motion.div>
 
-              {/* Main Headline */}
+              {/* Main Headline with Pencil / Curvy Underline */}
               <h1 className="text-2xl sm:text-3xl lg:text-[34px] xl:text-[38px] font-display font-extrabold tracking-tight text-slate-950 leading-[1.18]">
                 We Don&apos;t Just Rank Products.{" "}
-                <span className="text-[#FF6B00] block mt-1">
-                  Makes You The Brand.
+                <span className="block mt-1">
+                  <CurvyUnderline strokeColor="#FF6B00" variant="curvy">
+                    Makes You The Brand.
+                  </CurvyUnderline>
                 </span>
               </h1>
 
-              {/* Subheadline */}
+              {/* Concise Subheadline */}
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal max-w-md mx-auto lg:mx-0">
-                Engineering category dominance for high-growth Amazon sellers and TikTok Shop pioneers through precision search architecture, conversion-led creatives, PPC science, and turnkey operational custodianship.
+                Engineering category dominance for high-growth Amazon sellers and TikTok Shop pioneers through precision search architecture, conversion-led creatives, and turnkey operational custodianship.
               </p>
 
               {/* Interactive Stat Badges with Dynamic Toggle Switcher */}
@@ -369,13 +345,12 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Action Buttons with Continuous Shimmer */}
+              {/* Action Buttons */}
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
                 <Link
                   href="/contact"
                   className="relative overflow-hidden w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-[#FF6B00] to-[#FF8533] hover:from-[#FF7A1A] hover:to-[#FFA048] shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 transition-all duration-200 flex items-center justify-center gap-2 group active:scale-98"
                 >
-                  <span className="absolute inset-0 animate-shimmer pointer-events-none opacity-40" />
                   <Sparkles className="w-4 h-4" />
                   <span>Claim Free 24-Point Audit</span>
                   <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -442,11 +417,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* DESKTOP ONLY: Flush-Right Absolute Image with Floating Continuous Bobbing Badges */}
+        {/* DESKTOP ONLY: Flush-Right Absolute Image (WordPress-style slide in right) */}
         <motion.div 
-          initial={{ opacity: 0, x: 70 }}
+          initial={{ opacity: 0, x: 80 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
           className="hidden lg:flex lg:absolute lg:right-0 lg:top-24 lg:bottom-0 w-[60%] xl:w-[64%] h-[calc(100%-96px)] z-10 items-end justify-end pointer-events-none"
         >
           {/* Continuous Left-Side Blend Overlay matching #FCF5EB */}
@@ -502,719 +477,211 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 2. AUTHENTIC PARTNER & CREDENTIALS BANNER                    */}
+      {/* 2. AUTHENTIC PARTNER & CREDENTIALS MARQUEE BANNER             */}
       {/* ============================================================ */}
-      <section className="border-b border-slate-200 bg-white py-6">
+      <section className="border-b border-slate-200 bg-white py-5 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2 text-xs uppercase tracking-wider font-bold text-slate-400 font-mono">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span>Verified Governance & Agency Seats</span>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 shrink-0">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <span>Certified Marketplace Ecosystem</span>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-8 text-xs font-semibold text-slate-700">
-              <span className="flex items-center gap-1.5">
-                <FaAmazon className="w-4 h-4 text-[#FF9900]" />
-                <span>Amazon Ads Verified Partner</span>
-              </span>
-              <span className="hidden sm:inline text-slate-200">|</span>
-              <span className="flex items-center gap-1.5">
-                <FaTiktok className="w-4 h-4 text-[#000000]" />
-                <span>TikTok Shop Creator Network</span>
-              </span>
-              <span className="hidden sm:inline text-slate-200">|</span>
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Brand Registry 2.0</span>
-              </span>
-              <span className="hidden sm:inline text-slate-200">|</span>
-              <span className="flex items-center gap-1.5">
-                <Award className="w-4 h-4 text-blue-600" />
-                <span>USPTO & Companies House</span>
-              </span>
+            
+            <div className="w-full md:w-auto overflow-hidden relative">
+              <div className="flex items-center gap-8 sm:gap-12 animate-marquee whitespace-nowrap">
+                <span className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                  <FaAmazon className="w-4 h-4 text-[#FF6B00]" /> Amazon Service Provider Network (SPN)
+                </span>
+                <span className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                  <FaTiktok className="w-4 h-4 text-teal-600" /> TikTok Shop Authorized Partner
+                </span>
+                <span className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                  <Award className="w-4 h-4 text-amber-500" /> Amazon Brand Registry Specialist
+                </span>
+                <span className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                  <CheckCircle2 className="w-4 h-4 text-blue-600" /> Walmart Marketplace Approved
+                </span>
+                <span className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                  <Globe className="w-4 h-4 text-emerald-600" /> Tmall Global Gold Partner
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* 3. THE BRUTAL REALITY: PAIN POINTS WE SOLVE (WITH 3D ASSETS) */}
+      {/* 3. CONTINUOUSLY SPINNING 3D GLOBE SECTION (USER'S IMAGE #2)  */}
       {/* ============================================================ */}
-      <section className="py-20 bg-[#F4F6FA] border-b border-slate-200/90 relative overflow-hidden">
+      <InteractiveGlobe />
+
+      {/* ============================================================ */}
+      {/* 4. VERIFIED CLIENT RESULTS & GUARANTEE (USER'S IMAGE #1)     */}
+      {/* ============================================================ */}
+      <ResultsShowcase />
+
+      {/* ============================================================ */}
+      {/* 5. CORE CAPABILITIES BENTO GRID (SPOTLIGHT & MOUSE TILT)      */}
+      {/* ============================================================ */}
+      <BentoServices />
+
+      {/* ============================================================ */}
+      {/* 6. INTERACTIVE PPC SEARCH HARVESTING LABORATORY              */}
+      {/* ============================================================ */}
+      <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
+        {/* Glow ambient background lights */}
+        <div className="absolute top-1/4 left-10 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          <div className="max-w-3xl mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-600 text-xs font-bold uppercase tracking-wider mb-3">
-              <ShieldAlert className="w-3.5 h-3.5" />
-              <span>The Marketplace Reality</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-slate-950">
-              Most Brands Don&apos;t Fail from Bad Products. <br className="hidden sm:inline" />
-              <span className="text-[#FF6B00]">They Bleed Out from Fragile Systems.</span>
-            </h2>
-            <p className="mt-2 text-slate-600 text-sm sm:text-base">
-              If your store feels trapped between soaring ad costs and razor-thin margins, you are experiencing one of these three profit leaks:
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-orange-400 text-xs font-bold uppercase tracking-wider mb-3"
+            >
+              <Target className="w-3.5 h-3.5 text-[#FF6B00]" />
+              <span>Scientific Search Harvesting</span>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-white"
+            >
+              Live Search Query &{" "}
+              <CurvyUnderline strokeColor="#FF6B00" variant="curvy">
+                Waste Elimination Lab
+              </CurvyUnderline>
+            </motion.h2>
+
+            <p className="mt-4 text-sm sm:text-base text-slate-400 leading-relaxed max-w-2xl mx-auto">
+              Inspect how Rankmoor isolates real buyer intent, shields thousands in wasted ad spend, and forces Amazon&apos;s algorithm to reward your exact SKUs.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Interactive Console */}
+          <div className="bg-slate-950/80 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-xl max-w-5xl mx-auto">
             
-            {/* Trap 1: The PPC Cash Bleed (Features 3D Transparent Floating Coin Asset) */}
-            <div className="p-7 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex flex-col justify-between hover:border-red-300 hover:shadow-xl transition-all group relative overflow-hidden">
-              <div>
-                {/* 3D Transparent Floating Asset */}
-                <div className="relative w-full h-36 mb-4 flex items-center justify-center">
-                  <div className="relative w-32 h-32 animate-float">
-                    <Image
-                      src="/assets/graphics/ppc-ad-leak.webp"
-                      alt="PPC Ad Budget Leak Warning"
-                      fill
-                      className="object-contain drop-shadow-lg"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-mono font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded">01 / PPC LOSS</span>
-                </div>
-                <h3 className="text-lg font-display font-bold text-slate-900 mb-2">
-                  The Runaway ACOS Trap
-                </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
-                  Bidding high on broad keywords without day-parting or negative harvesting. Ad spend goes up, but profit evaporates into Amazon&apos;s pockets.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span className="text-slate-400">The Rankmoor Fix:</span>
-                <span className="font-bold text-emerald-600">Pinpointed 16% Target ACOS</span>
-              </div>
-            </div>
-
-            {/* Trap 2: Commodity Listing Fatigue (Features 3D Transparent Exploded Bottle Asset) */}
-            <div className="p-7 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex flex-col justify-between hover:border-amber-300 hover:shadow-xl transition-all group relative overflow-hidden">
-              <div>
-                {/* 3D Transparent Floating Asset */}
-                <div className="relative w-full h-36 mb-4 flex items-center justify-center">
-                  <div className="relative w-32 h-32 animate-float-delayed">
-                    <Image
-                      src="/assets/graphics/listing-conversion-3d.webp"
-                      alt="3D Listing Conversion Architecture"
-                      fill
-                      className="object-contain drop-shadow-lg"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-mono font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">02 / CVR BOUNCE</span>
-                </div>
-                <h3 className="text-lg font-display font-bold text-slate-900 mb-2">
-                  The Low-Converting Listing
-                </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
-                  Flat 2D renders, robotic keyword stuffing, and generic bullet points. 80% of clicks bounce to competitors who look like true luxury leaders.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span className="text-slate-400">The Rankmoor Fix:</span>
-                <span className="font-bold text-[#FF6B00]">3D Studio A+ & Cosmo SEO</span>
-              </div>
-            </div>
-
-            {/* Trap 3: TikTok Disconnect (Features 3D Transparent Smartphone Viral Stream Asset) */}
-            <div className="p-7 rounded-2xl bg-white border border-slate-200/90 shadow-sm flex flex-col justify-between hover:border-teal-300 hover:shadow-xl transition-all group relative overflow-hidden">
-              <div>
-                {/* 3D Transparent Floating Asset */}
-                <div className="relative w-full h-36 mb-4 flex items-center justify-center">
-                  <div className="relative w-32 h-32 animate-float">
-                    <Image
-                      src="/assets/graphics/tiktok-viral-commerce.webp"
-                      alt="TikTok Shop Live Shopping Stream"
-                      fill
-                      className="object-contain drop-shadow-lg"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-mono font-bold text-teal-600 bg-teal-50 px-2 py-0.5 rounded">03 / MISSED SCALE</span>
-                </div>
-                <h3 className="text-lg font-display font-bold text-slate-900 mb-2">
-                  The TikTok Shop Blindspot
-                </h3>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
-                  Hearing about viral sales surges, but lacking the 500+ creator network, live studio infrastructure, or Amazon MCF bridge to execute profitably.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span className="text-slate-400">The Rankmoor Fix:</span>
-                <span className="font-bold text-teal-600">Turnkey Creator Engine</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* 4. WHO WE PARTNER WITH VS WHO THIS IS NOT FOR (QUALIFIER)    */}
-      {/* ============================================================ */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider mb-3">
-            <Filter className="w-3.5 h-3.5 text-[#FF6B00]" />
-            <span>Partnership Alignment</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-slate-950">
-            Are We The Right Growth Partner For You?
-          </h2>
-          <p className="mt-1 text-slate-600 text-sm">
-            We are a high-conviction growth house, not a volume agency. We protect our client ratios to guarantee eight-figure outcomes.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          
-          {/* Box 1: Who We Work With */}
-          <div className="p-8 sm:p-10 rounded-3xl bg-emerald-50/40 border-2 border-emerald-200/80 shadow-sm relative overflow-hidden">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-bold">
-                <Check className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-bold text-slate-900">
-                  Ideal Partner Brands
-                </h3>
-                <span className="text-xs text-emerald-800 font-semibold">Engineered For Exponential Scale</span>
-              </div>
-            </div>
-
-            <ul className="space-y-3.5 text-xs sm:text-sm text-slate-700">
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                <span>Generating <strong>$15,000 to $500,000+/month</strong> on Amazon or seeking turnkey TikTok Shop expansion.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                <span>Founders committed to building long-term <strong>brand moats</strong> through high-end 3D creatives and superior products.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                <span>Brands seeking <strong>senior strategist oversight</strong> and direct executive WhatsApp communication, not junior trainees.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
-                <span>Sellers ready to slash runaway broad ad spend and lock in a <strong>sub-18% ACOS baseline</strong>.</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Box 2: Who We Are NOT For */}
-          <div className="p-8 sm:p-10 rounded-3xl bg-slate-50 border-2 border-slate-200 shadow-sm relative overflow-hidden">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-slate-300 text-slate-700 flex items-center justify-center font-bold">
-                <X className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-bold text-slate-900">
-                  Who This Is NOT For
-                </h3>
-                <span className="text-xs text-slate-500 font-semibold">Save Both Of Our Time</span>
-              </div>
-            </div>
-
-            <ul className="space-y-3.5 text-xs sm:text-sm text-slate-600">
-              <li className="flex items-start gap-2.5">
-                <X className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
-                <span>Drop-shippers, counterfeit re-sellers, or get-rich-quick commodity product flippers.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <X className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
-                <span>Sellers looking for $150 Fiverr keyword dumps or black-hat review manipulation schemes.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <X className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
-                <span>Catalogs with less than 20% gross margins that cannot support scalable PPC advertising.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <X className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
-                <span>Businesses unwilling to register trademarks or maintain Amazon Brand Registry compliance.</span>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* 5. INTERACTIVE PPC SEARCH HARVESTING LABORATORY              */}
-      {/* ============================================================ */}
-      <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
-        
-        {/* Glow ambient background lights */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF6B00]/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="max-w-3xl mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-[#FF8533] text-xs font-bold uppercase tracking-wider mb-3">
-              <Cpu className="w-3.5 h-3.5" />
-              <span>PPC Science Laboratory</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-white">
-              See How We Cut 40%+ In Wasted Ad Spend
-            </h2>
-            <p className="mt-1 text-slate-400 text-sm">
-              Select a sample category below to inspect our algorithmic day-parting, single-keyword ad groups (SKAG), and negative harvesting shields.
-            </p>
-          </div>
-
-          {/* Interactive Preset Selector Buttons */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
-            {keywordPresets.map((kp, idx) => (
-              <button
-                key={kp.term}
-                onClick={() => setSelectedKeywordPreset(idx)}
-                className={`p-3.5 rounded-2xl text-left border transition-all cursor-pointer ${
-                  selectedKeywordPreset === idx
-                    ? "bg-slate-800 border-[#FF6B00] shadow-lg shadow-orange-500/20"
-                    : "bg-slate-800/40 border-slate-700/80 hover:bg-slate-800/80 hover:border-slate-600 text-slate-400"
-                }`}
-              >
-                <div className="text-[10px] font-bold uppercase text-slate-400 mb-0.5">{kp.category}</div>
-                <div className="text-xs sm:text-sm font-bold text-white line-clamp-1">{kp.term}</div>
-              </button>
-            ))}
-          </div>
-
-          {/* Live Diagnostic Display Card */}
-          <div className="rounded-3xl bg-slate-800/90 border border-slate-700 p-6 sm:p-10 shadow-2xl">
-            <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-slate-700 gap-4">
-              <div>
-                <span className="text-[11px] font-mono text-[#FF8533] uppercase tracking-wider font-bold">
-                  Target ASIN Query Isolation
-                </span>
-                <h3 className="text-xl sm:text-2xl font-display font-bold text-white">
-                  &ldquo;{keywordPresets[selectedKeywordPreset].term}&rdquo;
-                </h3>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Rankmoor SKAG Mode: ACTIVE</span>
-                </span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 pt-8">
-              
-              {/* Metric 1 */}
-              <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-700/80">
-                <div className="text-[11px] text-slate-400 mb-1">Monthly Search Volume</div>
-                <div className="text-xl sm:text-2xl font-bold font-mono text-white">
-                  {keywordPresets[selectedKeywordPreset].searchVolume}
-                </div>
-                <div className="text-[10px] text-slate-400 mt-1">High Buying Intent</div>
-              </div>
-
-              {/* Metric 2 */}
-              <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-700/80">
-                <div className="text-[11px] text-slate-400 mb-1">Auto-Broad ACOS vs SKAG</div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-lg line-through text-red-400 font-mono">
-                    {keywordPresets[selectedKeywordPreset].broadAcos}
-                  </span>
-                  <span className="text-xl sm:text-2xl font-bold font-mono text-emerald-400">
-                    {keywordPresets[selectedKeywordPreset].skagAcos}
-                  </span>
-                </div>
-                <div className="text-[10px] text-emerald-400 font-bold mt-1">-58% Waste Elimination</div>
-              </div>
-
-              {/* Metric 3 */}
-              <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-700/80">
-                <div className="text-[11px] text-slate-400 mb-1">Estimated Monthly Savings</div>
-                <div className="text-xl sm:text-2xl font-bold font-mono text-[#FF8533]">
-                  {keywordPresets[selectedKeywordPreset].wastedSpendSaved}
-                </div>
-                <div className="text-[10px] text-slate-400 mt-1">Recovered Gross Margin</div>
-              </div>
-
-              {/* Metric 4 */}
-              <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-700/80">
-                <div className="text-[11px] text-slate-400 mb-1">Algorithmic Day-Parting</div>
-                <div className="text-xs sm:text-sm font-bold text-white line-clamp-1">
-                  {keywordPresets[selectedKeywordPreset].peakHours}
-                </div>
-                <div className="text-[10px] text-slate-400 mt-1 font-mono">
-                  {keywordPresets[selectedKeywordPreset].negativesShielded}
-                </div>
-              </div>
-
-            </div>
-
-            <div className="mt-8 pt-6 border-t border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <span className="text-xs text-slate-400">
-                Want this exact audit conducted on your brand&apos;s Seller Central ad console?
+            {/* Category Selectors */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-800">
+              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                <Filter className="w-3.5 h-3.5 text-[#FF6B00]" />
+                Select Category Simulation:
               </span>
-              <Link
-                href="/contact"
-                className="w-full sm:w-auto px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-950 bg-white hover:bg-slate-100 transition-all flex items-center justify-center gap-2"
+
+              <div className="flex flex-wrap gap-2">
+                {keywordPresets.map((preset, idx) => (
+                  <button
+                    key={preset.term}
+                    onClick={() => setSelectedKeywordPreset(idx)}
+                    className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                      selectedKeywordPreset === idx
+                        ? "bg-[#FF6B00] text-white shadow-md shadow-orange-500/30 scale-102"
+                        : "bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800 border border-slate-800"
+                    }`}
+                  >
+                    {preset.category}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Active Simulation Display */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-8 items-center">
+              
+              {/* Left Column: Query Specs (Slide in Left) */}
+              <motion.div
+                key={`query-${selectedKeywordPreset}`}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4 }}
+                className="lg:col-span-6 space-y-4"
               >
-                <span>Audit My Search Terms (Free)</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+                <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800">
+                  <div className="text-xs text-slate-400 font-medium">Root Search Term</div>
+                  <div className="text-xl sm:text-2xl font-bold font-display text-white mt-1 flex items-center gap-2">
+                    <span>&ldquo;{keywordPresets[selectedKeywordPreset].term}&rdquo;</span>
+                  </div>
+                  <div className="mt-2 flex items-center gap-2 text-xs text-slate-400">
+                    <span className="px-2 py-0.5 rounded bg-slate-800 font-mono text-orange-400">
+                      {keywordPresets[selectedKeywordPreset].searchVolume}
+                    </span>
+                    <span>Exact monthly search queries</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                    <div className="text-[11px] text-slate-400">Peak Converting Hours</div>
+                    <div className="text-xs font-bold text-slate-200 mt-1 flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-teal-400" />
+                      <span>{keywordPresets[selectedKeywordPreset].peakHours}</span>
+                    </div>
+                  </div>
+                  <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                    <div className="text-[11px] text-slate-400">Shielded Bleed</div>
+                    <div className="text-xs font-bold text-slate-200 mt-1 flex items-center gap-1.5">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>{keywordPresets[selectedKeywordPreset].negativesShielded}</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Right Column: Comparison Gauges (Slide in Right) */}
+              <motion.div
+                key={`gauges-${selectedKeywordPreset}`}
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4 }}
+                className="lg:col-span-6 p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 space-y-6"
+              >
+                <div>
+                  <div className="flex justify-between items-center text-xs mb-1.5">
+                    <span className="text-slate-400">Generic Broad Campaign ACOS:</span>
+                    <span className="font-bold text-rose-400 font-mono">{keywordPresets[selectedKeywordPreset].broadAcos}</span>
+                  </div>
+                  <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
+                    <div 
+                      className="bg-rose-500 h-full rounded-full" 
+                      style={{ width: keywordPresets[selectedKeywordPreset].broadAcos }} 
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center text-xs mb-1.5">
+                    <span className="text-slate-200 font-bold flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>Rankmoor Exact SKAG + Negative Shield:</span>
+                    </span>
+                    <span className="font-bold text-emerald-400 font-mono text-sm">{keywordPresets[selectedKeywordPreset].skagAcos}</span>
+                  </div>
+                  <div className="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                    <div 
+                      className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full" 
+                      style={{ width: keywordPresets[selectedKeywordPreset].skagAcos }} 
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
+                  <div className="text-xs text-slate-400">Direct Monthly Waste Saved:</div>
+                  <div className="text-lg font-extrabold text-[#FF6B00] font-mono">
+                    {keywordPresets[selectedKeywordPreset].wastedSpendSaved}
+                  </div>
+                </div>
+              </motion.div>
+
             </div>
+
           </div>
-
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* 6. CORE SERVICES ARCHITECTURE (WITH BESPOKE BLUEPRINT IMAGES) */}
-      {/* ============================================================ */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold uppercase tracking-wider mb-3">
-              <Layers className="w-3.5 h-3.5 text-[#FF6B00]" />
-              <span>Engineered Systems</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-slate-950">
-              The Rankmoor Growth Architecture
-            </h2>
-            <p className="mt-1 text-slate-600 text-sm max-w-xl">
-              Specialized infrastructure engineered to turn products into defensible, high-margin category leaders.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setServiceTab("all")}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                serviceTab === "all" ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
-            >
-              All Pillars
-            </button>
-            <button
-              onClick={() => setServiceTab("amazon")}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                serviceTab === "amazon" ? "bg-[#FF6B00] text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
-            >
-              Amazon FBA
-            </button>
-            <button
-              onClick={() => setServiceTab("tiktok")}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                serviceTab === "tiktok" ? "bg-teal-600 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-              }`}
-            >
-              TikTok Shop
-            </button>
-          </div>
-        </div>
-
-        {/* 4 Modular Pillars with Clean Engineered Architecture Specs */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          
-          {/* Pillar 1: Amazon PPC & DSP Advertising */}
-          {(serviceTab === "all" || serviceTab === "amazon") && (
-            <div className="rounded-3xl p-6 sm:p-8 bg-white border border-slate-200/90 hover:border-orange-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#FF6B00] flex items-center justify-center group-hover:scale-105 transition-transform">
-                      <BarChart3 className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Pillar 01 // Acquisition</span>
-                      <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
-                        Amazon PPC & DSP Science
-                      </h3>
-                    </div>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
-                    Target: 16.00% ACOS
-                  </span>
-                </div>
-
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
-                  Algorithmic bid management, hourly day-parting, and Single-Keyword Ad Groups (SKAG) designed to cut wasted broad spend while securing Top-of-Search positions.
-                </p>
-
-                {/* Structured Architectural Spec Box (Clean Non-Image Engineering) */}
-                <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/80 mb-5 text-left">
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Ad Protocol</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">SKAG Silos</div>
-                    <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">Zero Broad Waste</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Pacing Engine</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">Day-Parting</div>
-                    <div className="text-[10px] text-blue-600 font-semibold mt-0.5">Hourly Adjust</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">DSP Retarget</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">Off-Amazon</div>
-                    <div className="text-[10px] text-[#E05300] font-semibold mt-0.5">5.4x ROAS</div>
-                  </div>
-                </div>
-
-                <div className="space-y-2 mb-6">
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
-                    <span>Hourly day-parting targeting peak checkout hours</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
-                    <span>Continuous search term harvesting & negative shields</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
-                    <span>Sponsored Brand Video & DSP retargeting</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-mono">Documented: $7.37M Sales</span>
-                <Link
-                  href="/amazon"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#E05300]"
-                >
-                  <span>Explore PPC Specs</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-          )}
-
-          {/* Pillar 2: Cosmo & A9 Listing SEO */}
-          {(serviceTab === "all" || serviceTab === "amazon") && (
-            <div className="rounded-3xl p-6 sm:p-8 bg-white border border-slate-200/90 hover:border-orange-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#FF6B00] flex items-center justify-center group-hover:scale-105 transition-transform">
-                      <Search className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Pillar 02 // Relevance</span>
-                      <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
-                        Cosmo & A9 SEO Architecture
-                      </h3>
-                    </div>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-md bg-orange-50 text-[#E05300] text-xs font-bold border border-orange-200">
-                    +140% Keyword Velocity
-                  </span>
-                </div>
-
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
-                  Reverse-ASIN competitor scraping coupled with semantic intent mapping for Amazon&apos;s latest Cosmo algorithm, turning listings into organic category anchors.
-                </p>
-
-                {/* Structured Architectural Spec Box (Clean Non-Image Engineering) */}
-                <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/80 mb-5 text-left">
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Search Model</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">Cosmo 2.0</div>
-                    <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">Intent Vectors</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Catalog Defense</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">Reverse-ASIN</div>
-                    <div className="text-[10px] text-blue-600 font-semibold mt-0.5">Top-3 Dominance</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Backend Index</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">Zero Cannibal</div>
-                    <div className="text-[10px] text-[#E05300] font-semibold mt-0.5">100% Retained</div>
-                  </div>
-                </div>
-
-                <div className="space-y-2 mb-6">
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
-                    <span>Multi-tiered reverse-ASIN keyword indexing</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
-                    <span>Mobile-first title & bullet psychology for 3-second scan</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
-                    <span>Backend search term optimization without index reset</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-mono">Organic Rank: Top-3 Dominance</span>
-                <Link
-                  href="/amazon"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#E05300]"
-                >
-                  <span>Explore SEO Specs</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-          )}
-
-          {/* Pillar 3: Studio 3D Creatives & Premium A+ */}
-          {(serviceTab === "all" || serviceTab === "amazon") && (
-            <div className="rounded-3xl p-6 sm:p-8 bg-white border border-slate-200/90 hover:border-orange-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#FF6B00] flex items-center justify-center group-hover:scale-105 transition-transform">
-                      <Layers className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Pillar 03 // Conversion</span>
-                      <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 group-hover:text-[#FF6B00] transition-colors leading-tight">
-                        3D Creatives & Premium A+
-                      </h3>
-                    </div>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
-                    +28% to +65% CVR Lift
-                  </span>
-                </div>
-
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
-                  Photorealistic 3D product renders, microscopic exploded views, cross-selling comparison modules, and full-bleed brand stores that command high pricing.
-                </p>
-
-                {/* Structured Architectural Spec Box (Clean Non-Image Engineering) */}
-                <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/80 mb-5 text-left">
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Asset Quality</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">4K 3D CAD</div>
-                    <div className="text-[10px] text-emerald-600 font-semibold mt-0.5">Sensory Texture</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Storefront Design</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">Mobile-First</div>
-                    <div className="text-[10px] text-blue-600 font-semibold mt-0.5">1-Thumb Buy</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Testing Engine</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">MYE Testing</div>
-                    <div className="text-[10px] text-[#E05300] font-semibold mt-0.5">99% Confidence</div>
-                  </div>
-                </div>
-
-                <div className="space-y-2 mb-6">
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
-                    <span>3D CAD modeling & sensory ingredient renders</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
-                    <span>Premium A+ modules & multi-SKU comparison charts</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-[#FF6B00] flex-shrink-0" />
-                    <span>Amazon Manage Your Experiments statistical A/B tests</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-mono">Conversion: Up to 24.6% CVR</span>
-                <Link
-                  href="/amazon"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF6B00] hover:text-[#E05300]"
-                >
-                  <span>View Creative Specs</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-          )}
-
-          {/* Pillar 4: TikTok Shop Creator Engine */}
-          {(serviceTab === "all" || serviceTab === "tiktok") && (
-            <div className="rounded-3xl p-6 sm:p-8 bg-white border border-slate-200/90 hover:border-teal-300 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center group-hover:scale-105 transition-transform">
-                      <Video className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Pillar 04 // Viral Commerce</span>
-                      <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 group-hover:text-teal-600 transition-colors leading-tight">
-                        TikTok Shop & Live GMV Engine
-                      </h3>
-                    </div>
-                  </div>
-                  <span className="px-2.5 py-1 rounded-md bg-teal-50 text-teal-700 text-xs font-bold border border-teal-200">
-                    4,200+ Active Creators
-                  </span>
-                </div>
-
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
-                  Monthly seeding to 500+ vetted UGC creators, dedicated TikTok Live shopping hosts, Spark Ads scaling, and automated Amazon MCF inventory synchronization.
-                </p>
-
-                {/* Structured Architectural Spec Box (Clean Non-Image Engineering) */}
-                <div className="grid grid-cols-3 gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200/80 mb-5 text-left">
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Creator Engine</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">500+ / Mo</div>
-                    <div className="text-[10px] text-teal-600 font-semibold mt-0.5">Sample Seeding</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Post Compliance</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">&gt;82% Ratio</div>
-                    <div className="text-[10px] text-blue-600 font-semibold mt-0.5">Verified Shoppable</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-white border border-slate-100 shadow-2xs">
-                    <div className="text-[10px] font-mono uppercase text-slate-500">Fulfillment</div>
-                    <div className="text-xs font-bold text-slate-900 mt-0.5">Amazon MCF</div>
-                    <div className="text-[10px] text-purple-600 font-semibold mt-0.5">Unified Inventory</div>
-                  </div>
-                </div>
-
-                <div className="space-y-2 mb-6">
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-teal-600 flex-shrink-0" />
-                    <span>Targeted seeding producing 120-300+ monthly tagged videos</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-teal-600 flex-shrink-0" />
-                    <span>Amazon Multi-Channel Fulfillment (MCF) blank-box API</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-teal-600 flex-shrink-0" />
-                    <span>Spark Ads & GMV Max paid amplification</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-mono">Live GMV: $480K / Month</span>
-                <Link
-                  href="/tiktok-shop"
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-600 hover:text-teal-700"
-                >
-                  <span>Explore TikTok Engine</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-          )}
 
         </div>
       </section>
@@ -1222,112 +689,112 @@ export default function HomePage() {
       {/* ============================================================ */}
       {/* 7. VERIFIED CLIENT DASHBOARDS (4 CORE MARKETPLACE CASES)     */}
       {/* ============================================================ */}
-      <section className="py-20 border-t border-slate-200 bg-[#FAF9F6] bg-texture relative overflow-hidden">
+      <section className="py-24 border-t border-slate-200 bg-[#FAF9F6] bg-texture relative overflow-hidden">
         <div className="absolute inset-0 bg-[#FAF9F6]/85 pointer-events-none" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold uppercase tracking-wider mb-3">
-                <BarChart3 className="w-3.5 h-3.5 text-blue-600" />
-                <span>Documented Performance Data</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-slate-950">
-                Verified Seller Central Records
-              </h2>
-              <p className="mt-1 text-slate-600 text-sm max-w-xl">
-                Unfiltered Seller Central app captures, Ads Campaign Manager reports, and desktop sales records.
-              </p>
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-slate-800 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Unvarnished Proof • 100% Real Seller Central</span>
             </div>
+            
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-slate-950">
+              Verified Marketplace{" "}
+              <CurvyUnderline strokeColor="#FF6B00" variant="wave">
+                Dashboards
+              </CurvyUnderline>
+            </h2>
 
-            <Link
-              href="/case-studies"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#FF6B00] hover:text-[#E05300]"
-            >
-              <span>View All Detailed Case Breakdowns</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <p className="mt-4 text-sm sm:text-base text-slate-600 max-w-2xl mx-auto">
+              No photoshop mockups. Direct screenshots from active Seller Central accounts stewarded by Rankmoor. Click any dashboard to inspect high-resolution metrics.
+            </p>
           </div>
 
-          {/* Case Navigation Tabs (4 Core Verified Cases Only) */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-8">
-            {CASE_STUDIES.map((cs, idx) => (
+          {/* Interactive Case Tabs */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+            {CASE_STUDIES.slice(0, 4).map((caseItem, idx) => (
               <button
-                key={cs.id}
+                key={caseItem.id}
                 onClick={() => setActiveCaseTab(idx)}
-                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap border transition-all cursor-pointer ${
+                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                   activeCaseTab === idx
-                    ? "bg-slate-900 text-white border-slate-900 shadow-sm"
-                    : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                    ? "bg-slate-900 text-white shadow-md shadow-slate-900/20 scale-102"
+                    : "bg-white text-slate-600 hover:text-slate-900 border border-slate-200/90"
                 }`}
               >
-                <span>{cs.highlightMetric}</span>
-                <span className="text-[11px] opacity-75 ml-1.5">({cs.category})</span>
+                <span>{caseItem.highlightMetric}</span>
+                <span className="hidden sm:inline text-slate-400 ml-1 font-normal">
+                  ({caseItem.highlightLabel})
+                </span>
               </button>
             ))}
           </div>
 
-          {/* Active Case Card */}
-          <div className="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-10 shadow-lg shadow-slate-200/50">
+          {/* Active Case Card (Slide in Animation) */}
+          <motion.div
+            key={activeCase.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="rounded-3xl bg-white border border-slate-200/90 shadow-xl overflow-hidden p-6 sm:p-10"
+          >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               
-              {/* Visual Side */}
-              <div className="lg:col-span-6">
+              {/* Left Column: Visual Screenshot with Zoom */}
+              <div className="lg:col-span-6 relative group">
                 <div 
                   onClick={() => setLightboxState({
                     isOpen: true,
                     imageSrc: activeCase.image,
                     title: activeCase.title,
-                    subtitle: `${activeCase.category} — ${activeCase.growthTag}`,
-                    metrics: activeCase.metrics.map(m => ({ label: m.label, value: m.value }))
+                    subtitle: activeCase.client,
+                    metrics: activeCase.metrics,
                   })}
-                  className="relative rounded-2xl overflow-hidden bg-slate-50 border border-slate-200 shadow-sm p-2 group cursor-pointer"
+                  className="relative aspect-[16/11] rounded-2xl overflow-hidden bg-slate-100 border border-slate-200/80 cursor-zoom-in shadow-md group-hover:shadow-xl transition-all"
                 >
-                  <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-slate-100">
-                    <Image
-                      src={activeCase.image}
-                      alt={activeCase.title}
-                      fill
-                      className="object-contain object-center group-hover:scale-102 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/20 transition-colors flex items-center justify-center">
-                      <span className="opacity-0 group-hover:opacity-100 transition-opacity px-4 py-2 rounded-full bg-white/95 text-slate-900 text-xs font-bold shadow-md flex items-center gap-1.5">
-                        <Maximize2 className="w-3.5 h-3.5 text-[#FF6B00]" />
-                        <span>Inspect Full Dashboard</span>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs shadow-2xs">
-                    <span className="text-slate-700 font-medium">Authentic Seller Central Capture</span>
-                    <span className="text-emerald-700 font-bold">{activeCase.growthTag}</span>
+                  <Image
+                    src={activeCase.image}
+                    alt={activeCase.title}
+                    fill
+                    className="object-contain p-2 group-hover:scale-102 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/20 transition-colors flex items-center justify-center">
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold text-slate-900 shadow-md flex items-center gap-1.5">
+                      <Maximize2 className="w-3.5 h-3.5 text-[#FF6B00]" />
+                      <span>Click to Zoom</span>
+                    </span>
                   </div>
                 </div>
               </div>
 
-              {/* Content Side */}
-              <div className="lg:col-span-6 space-y-5">
-                <div>
-                  <span className="text-xs uppercase font-bold text-[#E05300] tracking-wider mb-1 block">
-                    {activeCase.category}
-                  </span>
-                  <h3 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 mb-2">
-                    {activeCase.title}
-                  </h3>
-                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                    {activeCase.summary}
-                  </p>
+              {/* Right Column: Case Specs */}
+              <div className="lg:col-span-6 space-y-4">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold">
+                  <span>{activeCase.category}</span>
+                  <span>•</span>
+                  <span>{activeCase.growthTag}</span>
                 </div>
 
-                {/* 4 Metric Pills */}
-                <div className="grid grid-cols-2 gap-3">
-                  {activeCase.metrics.map((m) => (
-                    <div key={m.label} className="p-3 rounded-xl bg-slate-50 border border-slate-200">
-                      <div className="text-[11px] text-slate-500 mb-0.5">{m.label}</div>
-                      <div className="text-base sm:text-lg font-bold text-slate-900 font-display">
+                <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-950">
+                  {activeCase.title}
+                </h3>
+
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {activeCase.summary}
+                </p>
+
+                {/* Metrics Grid */}
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                  {activeCase.metrics.map((m, i) => (
+                    <div key={i} className="p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+                      <div className="text-[11px] text-slate-500 font-medium">{m.label}</div>
+                      <div className="text-base font-extrabold text-slate-900 font-display mt-0.5">
                         {m.value}
                       </div>
                       {m.change && (
-                        <div className="text-[10px] text-emerald-700 font-bold mt-0.5">
+                        <div className="text-[10px] font-bold text-emerald-600 mt-0.5">
                           {m.change}
                         </div>
                       )}
@@ -1335,256 +802,128 @@ export default function HomePage() {
                   ))}
                 </div>
 
-                {/* Strategy Checkpoints */}
-                <div className="space-y-1.5 text-xs text-slate-700 pt-1">
-                  {activeCase.strategy.slice(0, 3).map((st, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] mt-0.5 flex-shrink-0" />
-                      <span>{st}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="pt-2">
+                <div className="pt-3">
                   <Link
-                    href="/case-studies"
-                    className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#FF6B00] hover:text-[#E05300]"
+                    href={`/case-studies/${activeCase.slug}`}
+                    className="inline-flex items-center gap-2 text-xs font-bold text-[#FF6B00] hover:text-[#E05300] transition-colors"
                   >
-                    <span>Read Full Operational Breakdown</span>
-                    <ChevronRight className="w-4 h-4" />
+                    <span>Read Full Technical Breakdown</span>
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
               </div>
 
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* 8. WHY RANKMOOR? (FEATURING 3D BRAND FORTRESS ASSET)         */}
+      {/* 8. INTERACTIVE 5-POINT "BRAND MOAT" STORE HEALTH SCANNER     */}
       {/* ============================================================ */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        
-        <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-8">
-          <div className="max-w-2xl text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold uppercase tracking-wider mb-3">
-              <Target className="w-3.5 h-3.5 text-[#FF6B00]" />
-              <span>The Agency Moat</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-slate-950">
-              Why Eight-Figure Brands Choose Rankmoor
-            </h2>
-            <p className="mt-1 text-slate-600 text-sm">
-              How we compare against cheap individual freelancers and bloated legacy agencies.
-            </p>
-          </div>
-
-          {/* 3D Transparent Floating Fortress Asset */}
-          <div className="w-28 h-28 relative flex-shrink-0 hidden md:block animate-float">
-            <Image
-              src="/assets/graphics/brand-moat-fortress.webp"
-              alt="Rankmoor Brand Moat Fortress"
-              fill
-              className="object-contain drop-shadow-xl"
-            />
-          </div>
-        </div>
-
-        {/* 3-Column Comparison Table */}
-        <div className="overflow-x-auto">
-          <div className="min-w-[680px] rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-sm">
-            <div className="grid grid-cols-12 bg-slate-50 border-b border-slate-200 p-4 text-xs font-bold uppercase tracking-wider text-slate-500">
-              <div className="col-span-5">Execution Capability</div>
-              <div className="col-span-3 text-center text-slate-400">Typical Freelancer</div>
-              <div className="col-span-4 text-center text-[#FF6B00] bg-orange-50 py-1.5 -my-1.5 rounded-lg border border-orange-200 font-extrabold">
-                Rankmoor Growth House
-              </div>
-            </div>
-
-            <div className="divide-y divide-slate-100 text-xs sm:text-sm">
-              
-              {/* Row 1 */}
-              <div className="grid grid-cols-12 p-4 items-center">
-                <div className="col-span-5 font-semibold text-slate-900">
-                  Leadership & Strategy
-                  <div className="text-[11px] text-slate-400 font-normal">Who actually directs your campaigns</div>
-                </div>
-                <div className="col-span-3 text-center text-slate-500 flex items-center justify-center gap-1.5">
-                  <X className="w-4 h-4 text-red-500" />
-                  <span>One person juggling 20 gigs</span>
-                </div>
-                <div className="col-span-4 text-center font-bold text-slate-950 flex items-center justify-center gap-1.5 bg-orange-50/40 py-2 -my-2 rounded">
-                  <Check className="w-4 h-4 text-[#FF6B00]" />
-                  <span>Senior E-Com Leads & Mian Hassan</span>
-                </div>
-              </div>
-
-              {/* Row 2 */}
-              <div className="grid grid-cols-12 p-4 items-center">
-                <div className="col-span-5 font-semibold text-slate-900">
-                  PPC Day-Parting & Target ACOS
-                  <div className="text-[11px] text-slate-400 font-normal">Hourly algorithmic bids vs. automated rules</div>
-                </div>
-                <div className="col-span-3 text-center text-slate-500 flex items-center justify-center gap-1.5">
-                  <X className="w-4 h-4 text-red-500" />
-                  <span>Basic auto-campaigns (30%+ ACOS)</span>
-                </div>
-                <div className="col-span-4 text-center font-bold text-slate-950 flex items-center justify-center gap-1.5 bg-orange-50/40 py-2 -my-2 rounded">
-                  <Check className="w-4 h-4 text-[#FF6B00]" />
-                  <span>Documented 16.0% ACOS on $7M+</span>
-                </div>
-              </div>
-
-              {/* Row 3 */}
-              <div className="grid grid-cols-12 p-4 items-center">
-                <div className="col-span-5 font-semibold text-slate-900">
-                  Studio 3D Creatives & Premium A+
-                  <div className="text-[11px] text-slate-400 font-normal">CAD rendering, explode views, storefronts</div>
-                </div>
-                <div className="col-span-3 text-center text-slate-500 flex items-center justify-center gap-1.5">
-                  <X className="w-4 h-4 text-red-500" />
-                  <span>Canva / stock photo collages</span>
-                </div>
-                <div className="col-span-4 text-center font-bold text-slate-950 flex items-center justify-center gap-1.5 bg-orange-50/40 py-2 -my-2 rounded">
-                  <Check className="w-4 h-4 text-[#FF6B00]" />
-                  <span>In-House 3D Studio & Brand Stores</span>
-                </div>
-              </div>
-
-              {/* Row 4 */}
-              <div className="grid grid-cols-12 p-4 items-center">
-                <div className="col-span-5 font-semibold text-slate-900">
-                  TikTok Shop Creator Network
-                  <div className="text-[11px] text-slate-400 font-normal">Vetted creator seeding & Amazon MCF bridge</div>
-                </div>
-                <div className="col-span-3 text-center text-slate-500 flex items-center justify-center gap-1.5">
-                  <X className="w-4 h-4 text-red-500" />
-                  <span>Zero creator infrastructure</span>
-                </div>
-                <div className="col-span-4 text-center font-bold text-slate-950 flex items-center justify-center gap-1.5 bg-orange-50/40 py-2 -my-2 rounded">
-                  <Check className="w-4 h-4 text-[#FF6B00]" />
-                  <span>4,200+ Creators & Live Studios</span>
-                </div>
-              </div>
-
-              {/* Row 5 */}
-              <div className="grid grid-cols-12 p-4 items-center">
-                <div className="col-span-5 font-semibold text-slate-900">
-                  Communication & Speed
-                  <div className="text-[11px] text-slate-400 font-normal">How fast problems get solved</div>
-                </div>
-                <div className="col-span-3 text-center text-slate-500 flex items-center justify-center gap-1.5">
-                  <X className="w-4 h-4 text-red-500" />
-                  <span>Disappears or delays for days</span>
-                </div>
-                <div className="col-span-4 text-center font-bold text-slate-950 flex items-center justify-center gap-1.5 bg-orange-50/40 py-2 -my-2 rounded">
-                  <Check className="w-4 h-4 text-[#FF6B00]" />
-                  <span>Dedicated Private WhatsApp Channel</span>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* 9. INTERACTIVE 5-POINT "BRAND MOAT" STORE HEALTH SCANNER     */}
-      {/* ============================================================ */}
-      <section className="py-20 bg-slate-50 border-y border-slate-200">
+      <section className="py-24 bg-slate-50 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-10 shadow-lg shadow-slate-200/50">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="max-w-4xl mx-auto rounded-3xl bg-white border border-slate-200/90 shadow-xl p-6 sm:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
               
-              {/* Left Column: Interactive Checkpoints */}
-              <div className="lg:col-span-7 space-y-5">
-                <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold uppercase tracking-wider mb-2">
-                    <Activity className="w-3.5 h-3.5 text-[#FF6B00]" />
-                    <span>Interactive Diagnostic Check</span>
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900">
-                    How Defensible Is Your Marketplace Moat?
-                  </h3>
-                  <p className="text-slate-600 text-xs sm:text-sm mt-1">
-                    Click each capability your brand currently has implemented to calculate your store&apos;s Dominance Score.
-                  </p>
+              {/* Left Column: Checklist */}
+              <div className="md:col-span-8 space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold uppercase tracking-wider">
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-[#FF6B00]" />
+                  <span>Interactive Account Audit</span>
                 </div>
 
-                <div className="space-y-2.5">
+                <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-950">
+                  5-Point Brand Moat Self-Assessment
+                </h3>
+
+                <p className="text-xs sm:text-sm text-slate-600">
+                  Toggle the checkboxes to evaluate if your marketplace catalog has resilient defenses or is leaking margins to competitors.
+                </p>
+
+                <div className="space-y-2.5 pt-2">
                   {[
-                    "Amazon Cosmo 2.0 Semantic Reverse-ASIN Keyword Indexing",
-                    "Photorealistic 3D CAD Exploded Renders & Premium A+ Storefront",
-                    "Hourly Day-Parted PPC Bidding with Negative Query Shields",
-                    "TikTok Shop 500+ Creator Machine with Amazon MCF Auto-Sync",
-                    "BuyBox 24/7 Monitoring & Project Zero Listing Hijacker Eviction"
-                  ].map((item, idx) => (
+                    "Cosmo 2.0 & A9 Reverse-ASIN indexing fully mapped",
+                    "PPC operating at sub-20% ACOS with negative keyword harvesting",
+                    "Premium A+ Brand Story deployed with 3D product renders",
+                    "FBA inventory rolling 90-day forecast with zero stockouts",
+                    "Active TikTok Shop affiliate seeding machine (100+ samples/mo)",
+                  ].map((label, idx) => (
                     <button
                       key={idx}
                       onClick={() => toggleScannerCheck(idx)}
-                      className={`w-full p-3.5 rounded-xl text-left border flex items-center justify-between transition-all cursor-pointer ${
+                      className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between cursor-pointer ${
                         scannerChecks[idx]
-                          ? "bg-emerald-50/70 border-emerald-300 text-slate-900 font-semibold"
-                          : "bg-slate-50 border-slate-200 text-slate-500 hover:bg-slate-100"
+                          ? "bg-emerald-50/60 border-emerald-300 text-slate-900"
+                          : "bg-slate-50 border-slate-200 text-slate-500 hover:border-slate-300"
                       }`}
                     >
-                      <div className="flex items-center gap-3 text-xs sm:text-sm">
-                        <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-colors ${
-                          scannerChecks[idx]
-                            ? "bg-emerald-600 border-emerald-600 text-white"
-                            : "border-slate-300 bg-white"
-                        }`}>
-                          {scannerChecks[idx] && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                        </div>
-                        <span>{item}</span>
-                      </div>
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                        scannerChecks[idx] ? "bg-emerald-100 text-emerald-800" : "bg-slate-200 text-slate-600"
+                      <span className="text-xs sm:text-sm font-medium">{label}</span>
+                      <div className={`w-5 h-5 rounded-md flex items-center justify-center border transition-all ${
+                        scannerChecks[idx]
+                          ? "bg-emerald-500 border-emerald-500 text-white"
+                          : "border-slate-300 bg-white"
                       }`}>
-                        {scannerChecks[idx] ? "+20% Moat" : "Missing"}
-                      </span>
+                        {scannerChecks[idx] && <Check className="w-3.5 h-3.5" />}
+                      </div>
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Right Column: Live Calculated Score Ring & Diagnosis */}
-              <div className="lg:col-span-5 bg-slate-900 text-white p-7 sm:p-9 rounded-2xl flex flex-col items-center text-center justify-between">
-                <span className="text-[11px] font-mono text-[#FF8533] uppercase tracking-wider font-bold">
-                  Calculated Brand Moat Readiness
-                </span>
-
-                {/* Score Dial */}
-                <div className="my-6 relative flex items-center justify-center">
-                  <div className="text-5xl sm:text-6xl font-display font-extrabold text-white">
-                    {storeHealthScore}%
-                  </div>
-                  <div className="absolute -inset-4 rounded-full border-2 border-dashed border-[#FF6B00]/40 animate-spin-slow pointer-events-none" />
+              {/* Right Column: Score Gauge */}
+              <div className="md:col-span-4 flex flex-col items-center justify-center text-center p-6 rounded-2xl bg-[#FAF9F6] border border-slate-200">
+                <div className="text-xs uppercase font-bold text-slate-400 tracking-wider mb-2">
+                  Store Health Score
                 </div>
 
-                <div className="space-y-2 mb-6">
-                  <div className="text-sm font-bold text-white">
-                    {storeHealthScore <= 40 && "Fragile Commodity Status"}
-                    {storeHealthScore > 40 && storeHealthScore <= 80 && "Growth Stage: Margin Bleed Detected"}
-                    {storeHealthScore > 80 && "Institutional Category Dominance"}
-                  </div>
-                  <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
-                    {storeHealthScore <= 40 && "Your catalog is vulnerable to aggressive competitor conquesting and runaway ACOS bleed."}
-                    {storeHealthScore > 40 && storeHealthScore <= 80 && "You have solid traction, but are leaking 20-35% in profit margin to unoptimized broad PPC and flat visuals."}
-                    {storeHealthScore > 80 && "Your brand possesses institutional-grade infrastructure with full multi-channel defenses."}
-                  </p>
+                <div className="relative w-32 h-32 flex items-center justify-center mb-3">
+                  <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="transparent"
+                      stroke="#E2E8F0"
+                      strokeWidth="10"
+                    />
+                    <motion.circle
+                      cx="50"
+                      cy="50"
+                      r="40"
+                      fill="transparent"
+                      stroke={storeHealthScore > 60 ? "#10B981" : storeHealthScore > 40 ? "#FF6B00" : "#F43F5E"}
+                      strokeWidth="10"
+                      strokeDasharray={251.2}
+                      animate={{ strokeDashoffset: 251.2 - (251.2 * storeHealthScore) / 100 }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <span className="absolute text-3xl font-extrabold font-display text-slate-900">
+                    {storeHealthScore}%
+                  </span>
+                </div>
+
+                <div className="text-xs font-bold text-slate-700">
+                  {storeHealthScore === 100
+                    ? "Institutional Grade Moat"
+                    : storeHealthScore >= 60
+                    ? "Moderate Vulnerabilities"
+                    : "Severe Margin Leakage"}
+                </div>
+
+                <div className="text-[11px] text-slate-500 mt-1">
+                  {storeHealthScore < 100 && "Our 24-point audit fixes the gaps."}
                 </div>
 
                 <Link
                   href="/contact"
-                  className="w-full py-3 rounded-xl font-bold text-xs sm:text-sm text-slate-950 bg-white hover:bg-slate-100 transition-all flex items-center justify-center gap-2 shadow-md"
+                  className="mt-4 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#FF6B00] hover:bg-[#E05300] transition-colors shadow-xs"
                 >
-                  <Sparkles className="w-4 h-4 text-[#FF6B00]" />
-                  <span>Fix Missing {5 - checkedCount} Moat Pillars</span>
-                  <ArrowRight className="w-4 h-4" />
+                  Request Full Audit
                 </Link>
               </div>
 
@@ -1595,409 +934,221 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 10. THE 90-DAY BLUEPRINT (WITH ARCHITECTURE PREVIEW IMAGES)  */}
+      {/* 9. INTERACTIVE PROFIT & REVENUE SIMULATOR                    */}
       {/* ============================================================ */}
-      <section className="py-20 bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-10 lg:p-12 shadow-xl relative overflow-hidden">
           
-          <div className="max-w-3xl mb-14">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-[#FF8533] text-xs font-bold uppercase tracking-wider mb-3">
-              <Clock className="w-3.5 h-3.5" />
-              <span>Execution Blueprint</span>
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold uppercase tracking-wider mb-3">
+              <TrendingUp className="w-3.5 h-3.5 text-[#FF6B00]" />
+              <span>Interactive Growth Valuation Simulator</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-white">
-              The 90-Day Roadmap to Category Dominance
-            </h2>
-            <p className="mt-1 text-slate-400 text-sm">
-              No guesswork. A structured four-stage system engineered to halt margin bleed and compound organic momentum.
+            
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-slate-950">
+              Simulate Your Brand&apos;s Scaled{" "}
+              <CurvyUnderline strokeColor="#FF6B00" variant="double">
+                Valuation
+              </CurvyUnderline>
+            </h3>
+
+            <p className="text-sm text-slate-600 mt-2">
+              Adjust your current monthly revenue and ad ACOS to project potential annual EBITDA gains through Rankmoor&apos;s dual Amazon + TikTok architecture.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            {/* Stage 1 */}
-            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-orange-500/50 hover:bg-slate-800 transition-all group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] flex items-center justify-center font-mono font-bold text-lg group-hover:scale-105 transition-transform">
-                    01
-                  </div>
-                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-slate-700/80 text-orange-300 border border-slate-600">
-                    Days 1 - 7
-                  </span>
-                </div>
-
-                <h3 className="text-lg font-display font-bold text-white mb-2 group-hover:text-orange-300 transition-colors">
-                  Forensic 24-Point Audit
-                </h3>
-                <p className="text-slate-400 text-xs leading-relaxed mb-4">
-                  Exhaustive reverse-ASIN competitor harvest, purging unproductive broad-match ad spend, and identifying hidden buy-box leaks.
-                </p>
-
-                <div className="space-y-2 mb-5 text-xs text-slate-300">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Reverse-ASIN competitor gap scan</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Ad spend bleed & waste triage</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Listing suppression & buy-box check</span>
-                  </div>
-                </div>
-              </div>
-              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700/80 flex items-center justify-between">
-                <span>Deliverable</span>
-                <span className="font-mono text-emerald-300">15-Page Action Roadmap</span>
-              </div>
-            </div>
-
-            {/* Stage 2 */}
-            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-orange-500/50 hover:bg-slate-800 transition-all group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] flex items-center justify-center font-mono font-bold text-lg group-hover:scale-105 transition-transform">
-                    02
-                  </div>
-                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-slate-700/80 text-orange-300 border border-slate-600">
-                    Days 8 - 25
-                  </span>
-                </div>
-
-                <h3 className="text-lg font-display font-bold text-white mb-2 group-hover:text-orange-300 transition-colors">
-                  Cosmo SEO & 3D Creatives
-                </h3>
-                <p className="text-slate-400 text-xs leading-relaxed mb-4">
-                  Deploying Cosmo semantic backend search terms and studio-grade 3D renders with comparison modules to immediately lift CVR.
-                </p>
-
-                <div className="space-y-2 mb-5 text-xs text-slate-300">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Cosmo 2.0 semantic keyword injection</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Photorealistic 3D exploded A+ renders</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Mobile one-thumb conversion design</span>
-                  </div>
-                </div>
-              </div>
-              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700/80 flex items-center justify-between">
-                <span>Deliverable</span>
-                <span className="font-mono text-emerald-300">+35% Expected CVR Lift</span>
-              </div>
-            </div>
-
-            {/* Stage 3 */}
-            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-orange-500/50 hover:bg-slate-800 transition-all group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] flex items-center justify-center font-mono font-bold text-lg group-hover:scale-105 transition-transform">
-                    03
-                  </div>
-                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-slate-700/80 text-orange-300 border border-slate-600">
-                    Days 26 - 60
-                  </span>
-                </div>
-
-                <h3 className="text-lg font-display font-bold text-white mb-2 group-hover:text-orange-300 transition-colors">
-                  Algorithmic PPC Scaling
-                </h3>
-                <p className="text-slate-400 text-xs leading-relaxed mb-4">
-                  Activating Single-Keyword Ad Groups (SKAG) with hourly day-parting to slash ACOS while scaling monthly revenue volume.
-                </p>
-
-                <div className="space-y-2 mb-5 text-xs text-slate-300">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Hourly day-parting peak-bid rules</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Single-Keyword Exact Ad Silos</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Amazon DSP retargeting activation</span>
-                  </div>
-                </div>
-              </div>
-              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700/80 flex items-center justify-between">
-                <span>Deliverable</span>
-                <span className="font-mono text-emerald-300">Sub-18% Target ACOS</span>
-              </div>
-            </div>
-
-            {/* Stage 4 */}
-            <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80 flex flex-col justify-between hover:border-orange-500/50 hover:bg-slate-800 transition-all group">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/30 text-[#FF6B00] flex items-center justify-center font-mono font-bold text-lg group-hover:scale-105 transition-transform">
-                    04
-                  </div>
-                  <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-bold bg-slate-700/80 text-orange-300 border border-slate-600">
-                    Days 60+
-                  </span>
-                </div>
-
-                <h3 className="text-lg font-display font-bold text-white mb-2 group-hover:text-orange-300 transition-colors">
-                  TikTok Shop Flywheel
-                </h3>
-                <p className="text-slate-400 text-xs leading-relaxed mb-4">
-                  Seeding products to 500+ creators, running dedicated live streams, and syncing inventory straight from Amazon FBA via MCF.
-                </p>
-
-                <div className="space-y-2 mb-5 text-xs text-slate-300">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>500+ monthly creator sample seeding</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Turnkey live shopping studio streams</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#FF6B00] flex-shrink-0" />
-                    <span>Amazon MCF unified inventory sync</span>
-                  </div>
-                </div>
-              </div>
-              <div className="text-[11px] font-semibold text-emerald-400 pt-3 border-t border-slate-700/80 flex items-center justify-between">
-                <span>Deliverable</span>
-                <span className="font-mono text-emerald-300">+340% Branded Search</span>
-              </div>
-            </div>
-
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-slate-950 bg-white hover:bg-slate-100 transition-all shadow-md"
-            >
-              <Sparkles className="w-4 h-4 text-[#FF6B00]" />
-              <span>Start Stage 01: Request Your 24-Point Audit</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* 11. PROFIT SIMULATOR (WITH 3D COMPOUNDING GROWTH ASSET)      */}
-      {/* ============================================================ */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        
-        <div className="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-10 shadow-lg shadow-slate-200/50 relative overflow-hidden">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            
-            {/* Left Controls */}
+            {/* Sliders */}
             <div className="lg:col-span-6 space-y-6">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold uppercase tracking-wider mb-2.5">
-                    <SlidersHorizontal className="w-3.5 h-3.5 text-[#FF6B00]" />
-                    <span>Interactive Growth Simulator</span>
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900">
-                    Simulate Your Recoverable Profit & Growth
-                  </h3>
-                  <p className="text-slate-600 text-xs sm:text-sm mt-1">
-                    Adjust the sliders to match your current marketplace revenue and ad ACOS.
-                  </p>
-                </div>
-
-                {/* 3D Transparent Floating Profit Growth Chart Asset */}
-                <div className="w-24 h-24 relative flex-shrink-0 hidden sm:block animate-float">
-                  <Image
-                    src="/assets/graphics/profit-growth-chart.webp"
-                    alt="Profit Growth Surge"
-                    fill
-                    className="object-contain drop-shadow-lg"
-                  />
-                </div>
-              </div>
-
-              {/* Slider 1: Revenue */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs sm:text-sm">
-                  <span className="font-bold text-slate-700">Current Monthly Revenue:</span>
-                  <span className="font-extrabold font-mono text-[#FF6B00] text-base">
-                    ${simRevenue.toLocaleString()} / mo
+              
+              {/* Slider 1: Monthly Revenue */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs font-bold text-slate-700">Current Monthly Revenue:</span>
+                  <span className="text-base font-extrabold text-slate-900 font-mono">
+                    ${simRevenue.toLocaleString()}
                   </span>
                 </div>
                 <input
                   type="range"
-                  min="10000"
-                  max="500000"
-                  step="5000"
+                  min={10000}
+                  max={500000}
+                  step={5000}
                   value={simRevenue}
                   onChange={(e) => setSimRevenue(Number(e.target.value))}
                   className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#FF6B00]"
                 />
-                <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+                <div className="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
                   <span>$10,000/mo</span>
                   <span>$250,000/mo</span>
-                  <span>$500,000+/mo</span>
+                  <span>$500,000/mo</span>
                 </div>
               </div>
 
-              {/* Slider 2: ACOS */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs sm:text-sm">
-                  <span className="font-bold text-slate-700">Current PPC Ad ACOS:</span>
-                  <span className="font-extrabold font-mono text-red-600 text-base">
+              {/* Slider 2: Current ACOS */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs font-bold text-slate-700">Current Ad ACOS:</span>
+                  <span className="text-base font-extrabold text-slate-900 font-mono">
                     {simAcos}%
                   </span>
                 </div>
                 <input
                   type="range"
-                  min="18"
-                  max="60"
-                  step="1"
+                  min={18}
+                  max={60}
+                  step={1}
                   value={simAcos}
                   onChange={(e) => setSimAcos(Number(e.target.value))}
                   className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-[#FF6B00]"
                 />
-                <div className="flex justify-between text-[10px] text-slate-400 font-mono">
-                  <span>18% (Controlled)</span>
-                  <span>35% (Typical)</span>
-                  <span>60% (Severe Bleed)</span>
+                <div className="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
+                  <span>18% (Optimized)</span>
+                  <span>35% (Average)</span>
+                  <span>60% (Bleeding)</span>
                 </div>
               </div>
+
             </div>
 
-            {/* Right Output Card */}
-            <div className="lg:col-span-6 bg-slate-50 border border-slate-200/90 rounded-2xl p-6 sm:p-8 space-y-5">
+            {/* Calculations Display */}
+            <div className="lg:col-span-6 p-6 sm:p-8 rounded-2xl bg-slate-900 text-white space-y-4">
               <div className="text-xs uppercase font-bold text-slate-400 tracking-wider">
-                Rankmoor 90-Day Projected Outcome
+                Projected 12-Month Impact
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-[11px] text-slate-500 mb-0.5">Projected Monthly GMV</div>
-                  <div className="text-lg sm:text-xl font-extrabold text-slate-900 font-display">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700">
+                  <div className="text-[11px] text-slate-400">Monthly Projected Run-Rate</div>
+                  <div className="text-lg sm:text-xl font-bold font-display text-white mt-1">
                     ${projectedMonthlyRevenue.toLocaleString()}
                   </div>
-                  <div className="text-[10px] text-emerald-600 font-bold mt-0.5">+95% Omnichannel Surge</div>
+                  <div className="text-[10px] text-emerald-400 font-bold mt-0.5">+95% Growth</div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-[11px] text-slate-500 mb-0.5">Monthly Ad Waste Saved</div>
-                  <div className="text-lg sm:text-xl font-extrabold text-emerald-600 font-display">
-                    ${adWasteEliminated.toLocaleString()} / mo
+                <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700">
+                  <div className="text-[11px] text-slate-400">Monthly Wasted Ad Spend Saved</div>
+                  <div className="text-lg sm:text-xl font-bold font-display text-emerald-400 mt-1">
+                    ${adWasteEliminated.toLocaleString()}
                   </div>
-                  <div className="text-[10px] text-slate-500 mt-0.5">At 16% Target ACOS</div>
+                  <div className="text-[10px] text-slate-400 mt-0.5">Target: 16.0% ACOS</div>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-between">
-                <div>
-                  <div className="text-[11px] uppercase tracking-wider font-bold text-[#E05300]">
-                    Annual EBITDA / Valuation Surge
-                  </div>
-                  <div className="text-2xl font-display font-extrabold text-slate-950">
-                    +${annualEbitdaImpact.toLocaleString()}
-                  </div>
+              <div className="p-4 rounded-xl bg-gradient-to-r from-orange-500/20 to-amber-500/10 border border-orange-500/40">
+                <div className="text-xs text-orange-300 font-semibold">Total Projected Annual Value:</div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-white font-display mt-0.5">
+                  +${annualEbitdaImpact.toLocaleString()}
                 </div>
-                <div className="text-right text-[11px] text-slate-500">
-                  Based on 3.5x - 4.5x <br /> e-commerce exit multiple
+                <div className="text-[11px] text-slate-300 mt-1">
+                  Combines incremental gross margin with eliminated ad waste.
                 </div>
               </div>
 
-              <Link
-                href="/contact"
-                className="w-full py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-[#FF6B00] to-[#FF8533] hover:from-[#FF7A1A] hover:to-[#FFA048] shadow-md transition-all flex items-center justify-center gap-2"
-              >
-                <span>Request Custom Audit for These Numbers</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              <div className="pt-2">
+                <button
+                  onClick={triggerConfetti}
+                  className="w-full py-3 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-[#FF6B00] to-[#FF8533] hover:from-[#FF7A1A] hover:to-[#FFA048] shadow-md shadow-orange-500/30 cursor-pointer transition-all flex items-center justify-center gap-2"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>Lock In This Valuation Model</span>
+                </button>
+              </div>
+
             </div>
 
           </div>
+
         </div>
       </section>
 
       {/* ============================================================ */}
-      {/* 12. EXECUTIVE LEADERSHIP (MEET THE FOUNDER)                  */}
+      {/* 10. EXECUTIVE LEADERSHIP (MEET THE FOUNDER)                  */}
       {/* ============================================================ */}
-      <section className="py-20 border-t border-slate-200">
+      <section className="py-24 border-t border-slate-200 bg-[#FAF9F6]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl bg-white border border-slate-200/90 p-8 sm:p-12 shadow-lg shadow-slate-200/40 relative overflow-hidden bg-texture">
-            <div className="absolute inset-0 bg-white/92 pointer-events-none" />
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="rounded-3xl bg-white border border-slate-200/90 p-8 sm:p-12 shadow-xl relative overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               
-              {/* Founder Image */}
-              <div className="lg:col-span-5">
-                <div className="relative w-full max-w-sm mx-auto aspect-[3/4] rounded-2xl overflow-hidden border-2 border-orange-200 shadow-md">
+              {/* Founder Image (Slide in Left) */}
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="lg:col-span-5 flex justify-center"
+              >
+                <div className="relative aspect-square w-full max-w-sm rounded-3xl overflow-hidden border-4 border-slate-100 shadow-2xl">
                   <Image
                     src={FOUNDER_INFO.image}
                     alt={FOUNDER_INFO.name}
                     fill
-                    className="object-cover object-top"
+                    className="object-cover"
                   />
-                  <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-3 rounded-xl border border-slate-200 text-center shadow-2xs">
-                    <div className="text-sm font-bold text-slate-900 font-display">
-                      {FOUNDER_INFO.name}
-                    </div>
-                    <div className="text-xs text-[#E05300] font-semibold">
-                      {FOUNDER_INFO.role} & Principal Strategist
-                    </div>
+                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl border border-slate-200 shadow-md">
+                    <div className="text-sm font-bold text-slate-900">{FOUNDER_INFO.name}</div>
+                    <div className="text-xs text-[#FF6B00] font-semibold">{FOUNDER_INFO.role}</div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Founder Bio */}
-              <div className="lg:col-span-7 space-y-5">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold uppercase tracking-wider">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#FF6B00]" />
-                  <span>Executive Leadership</span>
+              {/* Founder Bio (Slide in Right) */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="lg:col-span-7 space-y-4 text-center lg:text-left"
+              >
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-800 text-xs font-bold uppercase tracking-wider">
+                  <Award className="w-3.5 h-3.5 text-[#FF6B00]" />
+                  <span>Empirical Leadership</span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-950 leading-tight">
-                  &ldquo;Most sellers are trapped in the commodity bidding war. We build defensible brand moats.&rdquo;
+                <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-950">
+                  Built By Real Seven-Figure{" "}
+                  <CurvyUnderline strokeColor="#FF6B00" variant="curvy">
+                    Marketplace Sellers
+                  </CurvyUnderline>
                 </h2>
 
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
                   {FOUNDER_INFO.bio}
                 </p>
 
-                <div className="space-y-2 pt-1 text-xs sm:text-sm text-slate-700">
-                  {FOUNDER_INFO.credentials.map((cred) => (
-                    <div key={cred} className="flex items-center gap-2.5">
-                      <span className="w-2 h-2 rounded-full bg-[#FF6B00] flex-shrink-0" />
+                <blockquote className="p-4 rounded-2xl bg-orange-50/60 border-l-4 border-[#FF6B00] text-xs sm:text-sm text-slate-800 italic">
+                  &ldquo;{FOUNDER_INFO.quote}&rdquo;
+                </blockquote>
+
+                <div className="space-y-2 pt-2 text-left">
+                  {FOUNDER_INFO.credentials.map((cred, i) => (
+                    <div key={i} className="flex items-center gap-2.5 text-xs text-slate-700">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                       <span>{cred}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-3 flex flex-wrap items-center gap-3">
+                <div className="pt-4 flex flex-wrap gap-3 justify-center lg:justify-start">
+                  <Link
+                    href="/contact"
+                    className="px-6 py-3 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-colors shadow-sm"
+                  >
+                    Schedule Direct Strategy Call
+                  </Link>
                   <a
                     href={COMPANY_INFO.whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-5 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#25D366] hover:bg-[#20BA5A] shadow-md transition-all flex items-center gap-2"
+                    className="px-5 py-3 rounded-xl text-xs font-bold text-white bg-[#25D366] hover:bg-[#20BA5A] transition-colors shadow-sm flex items-center gap-2"
                   >
                     <WhatsAppIcon className="w-4 h-4 text-white" />
-                    <span>Chat With Mian Hassan</span>
+                    <span>WhatsApp Mian Hassan</span>
                   </a>
-
-                  <Link
-                    href="/about"
-                    className="px-5 py-3 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/80 border border-slate-200 transition-all"
-                  >
-                    Learn More About Rankmoor
-                  </Link>
                 </div>
-              </div>
+
+              </motion.div>
 
             </div>
           </div>
@@ -2005,56 +1156,135 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 13. CLIENT TESTIMONIALS (CURATED VERIFIED SHOWCASE)         */}
+      {/* 11. CLIENT TESTIMONIALS (CURATED VERIFIED SHOWCASE)         */}
       {/* ============================================================ */}
-      <section className="py-20 border-t border-slate-200 bg-white">
+      <section className="py-24 border-t border-slate-200 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold uppercase tracking-wider mb-3">
-              <Star className="w-3.5 h-3.5 fill-[#FF6B00] text-[#FF6B00]" />
-              <span>Verified Client Feedback</span>
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold uppercase tracking-wider mb-3">
+              <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+              <span>Partner Endorsements</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-extrabold text-slate-950">
-              Trusted by Eight-Figure Brand Founders
+            
+            <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-950">
+              Trusted By Category Leaders
             </h2>
-            <p className="mt-1 text-slate-600 text-sm">
-              Real feedback from marketplace directors and e-commerce founders scaling with Rankmoor.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {TESTIMONIALS.slice(0, 3).map((t, idx) => (
-              <div
+            {TESTIMONIALS.slice(0, 3).map((testimonial, idx) => (
+              <SpotlightCard
                 key={idx}
-                className="p-6 sm:p-7 rounded-2xl bg-slate-50 border border-slate-200/90 flex flex-col justify-between hover:bg-white hover:border-orange-300 transition-all shadow-2xs hover:shadow-md"
+                enableTilt
+                className="p-6 sm:p-8 flex flex-col justify-between border-slate-200/90"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1 text-[#FF6B00]">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3.5 h-3.5 fill-[#FF6B00]" />
-                      ))}
-                    </div>
-                    <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-full border border-emerald-200">
-                      {t.salesProof}
-                    </span>
+                  <div className="flex items-center gap-1 text-amber-500 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-500" />
+                    ))}
                   </div>
-                  <p className="text-slate-700 text-xs sm:text-sm leading-relaxed mb-5 italic">
-                    &ldquo;{t.quote}&rdquo;
+
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic mb-6">
+                    &ldquo;{testimonial.quote}&rdquo;
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-slate-200 flex items-center justify-between text-xs">
-                  <div>
-                    <div className="font-bold text-slate-900 font-display">{t.author}</div>
-                    <div className="text-slate-500 text-[11px]">{t.role}, {t.company}</div>
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-orange-100 text-[#FF6B00] font-bold flex items-center justify-center font-display text-sm">
+                      {testimonial.author[0]}
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-slate-900">{testimonial.author}</div>
+                      <div className="text-[11px] text-slate-500">{testimonial.role} • {testimonial.company}</div>
+                    </div>
                   </div>
-                  <span className="text-[10px] font-semibold text-slate-400 flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                    <span>Verified</span>
-                  </span>
+                  {testimonial.salesProof && (
+                    <span className="text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                      {testimonial.salesProof}
+                    </span>
+                  )}
                 </div>
+              </SpotlightCard>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* 12. FREQUENTLY ASKED QUESTIONS (CLEAN ACCORDION)             */}
+      {/* ============================================================ */}
+      <section className="py-24 border-t border-slate-200 bg-[#FAFAFC]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-slate-950">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-sm text-slate-600 mt-2">
+              Clear answers on contracts, pricing, and onboarding.
+            </p>
+
+            {/* Filter Tabs */}
+            <div className="flex flex-wrap justify-center gap-2 mt-6">
+              {[
+                { id: "all", label: "All Questions" },
+                { id: "amazon", label: "Amazon FBA" },
+                { id: "tiktok", label: "TikTok Shop" },
+                { id: "ppc", label: "PPC & Guarantees" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setFaqCategory(tab.id)}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    faqCategory === tab.id
+                      ? "bg-slate-900 text-white shadow-xs"
+                      : "bg-white text-slate-600 hover:text-slate-900 border border-slate-200"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            {filteredFaqs.map((faq, idx) => (
+              <div
+                key={idx}
+                className="rounded-2xl bg-white border border-slate-200/90 overflow-hidden shadow-2xs"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 cursor-pointer"
+                >
+                  <span className="text-sm font-bold text-slate-900">
+                    {faq.question}
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 text-slate-400 transition-transform ${
+                      openFaq === idx ? "rotate-180 text-[#FF6B00]" : ""
+                    }`}
+                  />
+                </button>
+
+                <AnimatePresence>
+                  {openFaq === idx && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ))}
           </div>
@@ -2063,153 +1293,38 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* 14. FREQUENTLY ASKED QUESTIONS (CLEAN 2-COLUMN)              */}
+      {/* 13. HIGH-CONTRAST CLOSING ACTION SECTION                     */}
       {/* ============================================================ */}
-      <section className="py-20 border-t border-slate-200 bg-[#FAFAFC] bg-texture relative overflow-hidden">
-        <div className="absolute inset-0 bg-[#FAFAFC]/85 pointer-events-none" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            
-            {/* Left Column: Context & Support Card */}
-            <div className="lg:col-span-5 space-y-6">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#E05300] text-xs font-bold uppercase tracking-wider mb-3">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#FF6B00]" />
-                  <span>Clarity & Answers</span>
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-950">
-                  Frequently Asked Questions
-                </h2>
-                <p className="mt-1 text-slate-600 text-xs sm:text-sm">
-                  Direct answers to the most common questions regarding our Amazon FBA and TikTok Shop scaling systems.
-                </p>
-              </div>
-
-              {/* Category Pills */}
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => setFaqCategory("all")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    faqCategory === "all" ? "bg-slate-900 text-white" : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"
-                  }`}
-                >
-                  All
-                </button>
-                <button
-                  onClick={() => setFaqCategory("amazon")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    faqCategory === "amazon" ? "bg-[#FF6B00] text-white" : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"
-                  }`}
-                >
-                  Amazon FBA
-                </button>
-                <button
-                  onClick={() => setFaqCategory("tiktok")}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    faqCategory === "tiktok" ? "bg-teal-600 text-white" : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"
-                  }`}
-                >
-                  TikTok Shop
-                </button>
-              </div>
-
-              {/* Direct Help Card */}
-              <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-3">
-                <div className="text-xs font-bold text-slate-900">Have a custom question about your catalog?</div>
-                <p className="text-xs text-slate-500">
-                  Connect with Mian Hassan directly on WhatsApp for an unvarnished audit of your current numbers.
-                </p>
-                <a
-                  href={COMPANY_INFO.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800"
-                >
-                  <WhatsAppIcon className="w-3.5 h-3.5" />
-                  <span>Start WhatsApp Conversation</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
-
-            {/* Right Column: Accordion Items */}
-            <div className="lg:col-span-7 space-y-3">
-              {filteredFaqs.map((faq, idx) => {
-                const isOpen = openFaq === idx;
-                return (
-                  <div
-                    key={faq.question}
-                    className="rounded-2xl bg-white border border-slate-200/90 overflow-hidden shadow-2xs hover:shadow-xs transition-shadow"
-                  >
-                    <button
-                      onClick={() => setOpenFaq(isOpen ? null : idx)}
-                      className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 text-slate-900 font-bold text-sm sm:text-base hover:text-[#FF6B00] transition-colors"
-                    >
-                      <span>{faq.question}</span>
-                      <ChevronDown
-                        className={`w-4 h-4 text-slate-400 transition-transform duration-200 flex-shrink-0 ${
-                          isOpen ? "rotate-180 text-[#FF6B00]" : ""
-                        }`}
-                      />
-                    </button>
-
-                    {isOpen && (
-                      <div className="px-4 sm:px-5 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
-                        {faq.answer}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* 15. HIGH-CONTRAST CLOSING ACTION (WITH 3D BESTSELLER TROPHY) */}
-      {/* ============================================================ */}
-      <section className="py-20 bg-[#0F172A] text-white relative overflow-hidden">
+      <section className="py-24 bg-[#0F172A] text-white relative overflow-hidden">
         
-        {/* Subtle glowing ambient accents */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF6B00]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+        {/* Glow ambient background lights */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-          
-          {/* 3D Transparent Floating Category Trophy */}
-          <div className="w-28 h-28 mx-auto relative animate-float">
-            <Image
-              src="/assets/graphics/category-trophy-3d.webp"
-              alt="Amazon Category Dominance Trophy"
-              fill
-              className="object-contain drop-shadow-2xl"
-            />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 text-orange-400 text-xs font-bold uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-[#FF6B00]" />
+            <span>Ready For Unfair Advantage?</span>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[#FF8533] text-xs font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Ready for Institutional Scale?</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-white tracking-tight leading-tight">
-            Stop Bleeding Amazon Ad Spend. <br className="hidden sm:inline" />
-            <span className="text-[#FF6B00]">Makes You The Brand.</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold tracking-tight text-white leading-tight">
+            Claim Category{" "}
+            <CurvyUnderline strokeColor="#FF6B00" variant="double">
+              Dominance Today
+            </CurvyUnderline>
           </h2>
 
-          <p className="text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
-            Claim your complimentary 24-Point Forensic Account Audit. We will analyze your reverse-ASIN ranking gaps, unmask wasted broad ad spend, and deliver an exact 90-day scaling roadmap.
+          <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
+            Stop losing margin to automated PPC leakage and stale listings. Claim your free 24-point account audit and review empirical roadmap options within 48 hours.
           </p>
 
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/contact"
-              className="relative overflow-hidden w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-gradient-to-r from-[#FF6B00] to-[#FF8533] hover:from-[#FF7A1A] hover:to-[#FFA048] shadow-lg shadow-orange-500/30 transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-4 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-[#FF6B00] to-[#FF8533] hover:from-[#FF7A1A] hover:to-[#FFA048] shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2 transition-all active:scale-98"
             >
-              <span className="absolute inset-0 animate-shimmer pointer-events-none opacity-30" />
               <Sparkles className="w-4 h-4" />
-              <span>Claim Free 24-Point Forensic Audit</span>
+              <span>Claim Free 24-Point Audit</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
 
@@ -2217,28 +1332,15 @@ export default function HomePage() {
               href={COMPANY_INFO.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-[#25D366] hover:bg-[#20BA5A] shadow-md transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-7 py-4 rounded-xl font-bold text-sm text-white bg-[#25D366] hover:bg-[#20BA5A] shadow-lg shadow-[#25D366]/25 flex items-center justify-center gap-2 transition-all active:scale-98"
             >
               <WhatsAppIcon className="w-4 h-4 text-white" />
-              <span>Direct WhatsApp Discussion</span>
+              <span>Direct WhatsApp Desk</span>
             </a>
           </div>
 
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-6 text-[11px] text-slate-400">
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>100% Confidential</span>
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>48-Hour Turnaround</span>
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Zero Commitment Required</span>
-            </span>
+          <div className="pt-4 text-xs text-slate-400">
+            Strict Confidentiality • Non-Disclosure Agreement Provided • Zero Pushy Sales Calls
           </div>
         </div>
       </section>

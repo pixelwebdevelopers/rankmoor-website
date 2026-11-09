@@ -12,7 +12,9 @@ import {
   BarChart3, 
   Layers, 
   ShieldAlert, 
-  ShieldCheck 
+  ShieldCheck,
+  AlertTriangle,
+  Gem
 } from "lucide-react";
 
 export function BeforeAfterSlider() {
@@ -127,8 +129,18 @@ export function BeforeAfterSlider() {
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent pointer-events-none" />
 
             <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3 rounded-xl border border-slate-200 text-xs flex items-center justify-between shadow-sm">
-              <span className="font-bold text-slate-900">
-                {activeTab === "before" ? "⚠️ Fragile Commodity Listing" : "💎 Luxury 3D Brand Flagship"}
+              <span className="font-bold text-slate-900 inline-flex items-center gap-1.5">
+                {activeTab === "before" ? (
+                  <>
+                    <AlertTriangle className="w-3.5 h-3.5 text-rose-500" />
+                    <span>Fragile Commodity Listing</span>
+                  </>
+                ) : (
+                  <>
+                    <Gem className="w-3.5 h-3.5 text-teal-600" />
+                    <span>Luxury 3D Brand Flagship</span>
+                  </>
+                )}
               </span>
               <span className={`font-extrabold px-2 py-0.5 rounded-full ${
                 activeTab === "before" ? "bg-rose-100 text-rose-700" : "bg-emerald-100 text-emerald-700"
