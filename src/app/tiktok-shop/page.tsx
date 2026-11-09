@@ -101,7 +101,7 @@ export default function TikTokShopPage() {
   const [activeHookType, setActiveHookType] = useState<"curiosity" | "problem" | "asmr">("curiosity");
 
   return (
-    <div className="relative min-h-screen bg-[#FAFAFC] text-slate-900 pt-24 pb-24 overflow-hidden selection:bg-[#FE2C55] selection:text-white">
+    <div className="relative min-h-screen bg-[#FAFAFC] text-slate-900 pb-24 overflow-hidden selection:bg-[#FE2C55] selection:text-white">
       
       {/* Lightbox for zooming service graphics */}
       <ImageLightbox
@@ -120,7 +120,7 @@ export default function TikTokShopPage() {
       {/* ============================================================ */}
       {/* 1. HERO SECTION (WITH TIKTOK LIVE BROADCAST GRAPHIC)         */}
       {/* ============================================================ */}
-      <section className="relative w-full bg-[#FAF7F2] bg-texture border-b border-slate-200 py-16 sm:py-24 text-center lg:text-left overflow-hidden">
+      <section className="relative w-full bg-[#FAF7F2] bg-texture border-b border-slate-200 pt-20 sm:pt-24 pb-12 sm:pb-16 text-center lg:text-left overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
